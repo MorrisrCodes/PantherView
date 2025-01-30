@@ -45,8 +45,8 @@ body { margin: 0; padding: 0; }
         container: 'map',
         style: 'mapbox://styles/mapbox/satellite-v9',
         projection: 'globe', // Display the map as a globe, since satellite-v9 defaults to Mercator
-        zoom: 1.5,
-        center: [-90, 40]
+        zoom: 1.5, // 1-20; 1 = Earth View from top down; 19 = sidewalk view
+        center: [-84.385353,33.753942] //longitude,latitude
     });
 
     map.on('style.load', () => {
