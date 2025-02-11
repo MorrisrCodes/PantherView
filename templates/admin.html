@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - PantherView</title>
+    <link rel="stylesheet" href="../static/adminstyle.css">
+</head>
+<body>
+    <header>
+        <h1>PantherView Admin Panel</h1>
+    </header>
+
+    <div class="container">
+        <div class="admin-box">
+            <h2>View & Search Users</h2>
+            <input type="text" id="search-users" placeholder="Search users">
+            <div id="user-list">
+                <!-- Users will be displayed here -->
+            </div>
+        </div>
+
+        <div class="admin-box">
+            <h2>View & Search Posts</h2>
+            <input type="text" id="search-posts" placeholder="Search posts">
+            <div id="post-list">
+                <!-- Posts will be displayed here -->
+            </div>
+        </div>
+
+        <!-- New admin box for Alerts -->
+        <div class="admin-box">
+            <h2>Search & View Alerts</h2>
+            <input type="text" id="search-alerts" placeholder="Search alerts">
+            <div id="alert-list">
+                <!-- Alerts will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <button onclick="viewAsUser()">View as Normal User</button>
+    </footer>
+
+    <script>
+        // Placeholder function for viewing as a normal user
+        function viewAsUser() {
+            alert("Viewing as a normal user, but still logged in as admin.");
+        }
+    </script>
+</body>
+</html>
