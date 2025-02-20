@@ -1,0 +1,174 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100%;
+}
+
+/* Navbar */
+.navbar {
+    background: #0056b3;
+    color: white;
+    padding: 10px 20px; /* Adjusted padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 70px; /* Increased to ensure content fits properly */
+    box-sizing: border-box;
+}
+
+/* Navbar Title */
+.navbar h1 {
+    margin: 0;
+    font-size: 18px; /* Slightly smaller */
+}
+
+/* Navbar Buttons */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.navbar button {
+    background-color: white;
+    color: #0056b3;
+    border: none;
+    padding: 6px 12px; /* Adjusted for consistency */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.navbar button:hover {
+    background-color: #003f80;
+    color: white;
+}
+
+/* Layout Container */
+.container {
+    display: flex;
+    height: calc(100vh - 50px); /* Match navbar height */
+    margin-top: 50px; /* Push below navbar */
+    overflow: hidden;
+}
+
+/* Map Container */
+#map {
+    flex-grow: 1;
+    height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    background: white;
+    border-left: 2px solid #ccc;
+    padding: 50px;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Sidebar Header */
+.sidebar h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #003f80;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Remove Bullets from Sidebar Lists */
+.sidebar ul {
+    list-style: none; /* Remove default bullets */
+    padding: 0;
+    margin: 0;
+}
+
+/* Sidebar List */
+#building-list, .dorm-list, .park-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+/* Building List Item */
+.building-item, .dorm-item, .park-item {
+    padding: 10px;
+    margin: 5px 0;
+    background: #f5f5f5;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    position: relative;
+}
+
+/* Expandable Content (Hidden by Default) */
+.building-details, .dorm-details, .park-details {
+    display: none;
+    padding: 10px;
+    background: #eaeaea;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+/* Show Details When Active */
+.building-item.active .building-details, .dorm-item.active .dorm-details, .park-item.active .park-details {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Buttons Inside Dropdown */
+.building-details button, .dorm-details button, .park-details button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.building-details button:hover, .dorm-details button:hover, .park-details button:hover {
+    background-color: #0056b3;
+}
+
+/* Smooth Dropdown Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Popup Box Styling */
+.maplibregl-popup-content {
+    background: rgba(255, 255, 255, 0.746);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    color: #003f80;
+}
+
+.maplibregl-popup button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.maplibregl-popup button:hover {
+    background-color: #003f80;
+}
+
