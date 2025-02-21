@@ -48,8 +48,8 @@ body, html {
   border-radius: 10px 0 0 10px; 
 }
 
-/* gif logo */
-.logo-container {
+/* login page logo */
+.login-logo-container {
   position: absolute;
   top: 15%; 
   left: 50%;
@@ -57,7 +57,7 @@ body, html {
 }
 
 /* logo size */
-.logo {
+.login-logo {
   width: 500px; 
   max-width: 100%;
 }

@@ -1,0 +1,30 @@
+.entry-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(210deg, #0071CE, #171f31, #284aa1);
+    padding: 20px;
+}
+
+/* logo */
+.entry-logo-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.entry-logo {
+    width: 600px;
+    height: auto;
+}
+
+/* button */ 
+.entry-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

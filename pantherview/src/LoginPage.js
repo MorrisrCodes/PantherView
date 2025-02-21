@@ -1,21 +1,28 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
+  const handleSignIn = () => {
+    navigate("/home");
+  };
+
   return (
     <div className="login-page-wrapper">
       <div className="login-container">
         <div className="gif-section">
-          <img src="/images/flag.gif" alt="Login Gif" className="login-gif" />
           <div className="logo-container">
-            <img src="/images/gsuwordlogo.png" alt="Logo" className="logo" />
+            <img src="/images/gsuwordlogo.png" alt="GSU Logo" className="logo" />
           </div>
+          <img src="/images/flag.gif" alt="Login Gif" className="login-gif" />
         </div>
         <div className="sign-in-box">
-          <h2>PantherView</h2>
+          <h1>PantherView</h1>
           <input type="text" placeholder="StudentID" />
           <input type="password" placeholder="Password" />
-          <button>Sign In</button>
+          <button onClick={handleSignIn}>Sign In</button> 
         </div>
       </div>
     </div>
