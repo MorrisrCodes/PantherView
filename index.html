@@ -2,119 +2,205 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Create a rotating globe with 3D buildings</title>
+<title>PantherHub</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
 <style>
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+/* Compass Styling */
+#compass {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    z-index: 2;
+    transform-origin: center;
+}
+#compass div {
+    position: absolute;
+    font-size: 14px;
+}
+#north { top: 5px; left: 50%; transform: translateX(-50%); color: red; }
+#east { right: 5px; top: 50%; transform: translateY(-50%); }
+#south { bottom: 5px; left: 50%; transform: translateX(-50%); }
+#west { left: 5px; top: 50%; transform: translateY(-50%); }
+
+/* Make a Post Button */
+#post-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 2;
+}
+#post-button:hover {
+    background: #45a049;
+}
+
+/* Post Modal */
+#post-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    z-index: 3;
+}
+#post-modal h3 { margin-top: 0; }
+#post-modal textarea {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+}
+#close-modal {
+    background: red;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    float: right;
+}
+#submit-post {
+    background: #4CAF50;
+    color: white;
+    padding: 8px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
-<style>
-    #btn-spin {
-        font:
-            bold 12px/20px 'Helvetica Neue',
-            Arial,
-            Helvetica,
-            sans-serif;
-        background-color: #3386c0;
-        color: #fff;
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        z-index: 1;
-        border: none;
-        width: 200px;
-        margin-left: -100px;
-        display: block;
-        cursor: pointer;
-        padding: 10px 20px;
-        border-radius: 3px;
-    }
-    #btn-spin:hover {
-        background-color: #4ea0da;
-    }
-</style>
+
 <div id="map"></div>
-<button id="btn-spin">Pause rotation</button>
+
+<!-- Compass -->
+<div id="compass">
+    <div id="north">N</div>
+    <div id="east">E</div>
+    <div id="south">S</div>
+    <div id="west">W</div>
+</div>
+
+<!-- Make a Post Button -->
+<button id="post-button">Make a Post</button>
+
+<!-- Post Modal -->
+<div id="post-modal">
+    <h3>Create a Post</h3>
+    <textarea id="post-content" placeholder="Write your post here..."></textarea>
+    <button id="submit-post">Submit</button>
+    <button id="close-modal">Cancel</button>
+</div>
+
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZGF2aW4zMjUiLCJhIjoiY202aGJmMjNmMGFsNTJrb3B0ajkzMnlkdyJ9._dJ3U63-H6oioqov3rR38g';
-    const map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/satellite-streets-v12', // Updated style to ensure 3D support
-        projection: 'globe',
-        zoom: 15,
-        center: [-84.385353, 33.753942]
-    });
+mapboxgl.accessToken = 'pk.eyJ1IjoiZGF2aW4zMjUiLCJhIjoiY202aGJmMjNmMGFsNTJrb3B0ajkzMnlkdyJ9._dJ3U63-H6oioqov3rR38g';
 
-    map.on('style.load', () => {
-        map.setFog({});
-        map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 });
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v11',
+    projection: 'globe',
+    zoom: 15,
+    center: [-84.3875, 33.7569] // Atlanta, GA
+});
 
-        map.addSource('mapbox-dem', {
-            type: 'raster-dem',
-            url: 'mapbox://mapbox.terrain-rgb',
-            tileSize: 512,
-            maxzoom: 14
-        });
+// Compass Rotation
+map.on('rotate', () => {
+    let rotation = map.getBearing();
+    document.getElementById('compass').style.transform = 'rotate(${-rotation}deg)';
+});
 
-        // Add 3D buildings
-        map.addLayer({
-            id: '3d-buildings',
-            source: 'composite',
-            'source-layer': 'building',
-            type: 'fill-extrusion',
-            minzoom: 15,
-            paint: {
-                'fill-extrusion-color': '#aaa',
-                'fill-extrusion-height': ['get', 'height'],
-                'fill-extrusion-base': ['get', 'min_height'],
-                'fill-extrusion-opacity': 0.6
-            }
-        });
-    });
+// Heatmap Data Source
+const heatmapData = {
+    "type": "FeatureCollection",
+    "features": [
+        { "type": "Feature", "geometry": { "type": "Point", "coordinates": [-84.385353, 33.753942] }, "properties": { "intensity": 0.2 } },
+        { "type": "Feature", "geometry": { "type": "Point", "coordinates": [-84.390, 33.755] }, "properties": { "intensity": 0.8 } },
+        { "type": "Feature", "geometry": { "type": "Point", "coordinates": [-84.395, 33.760] }, "properties": { "intensity": 0.5 } },
+        { "type": "Feature", "geometry": { "type": "Point", "coordinates": [-84.400, 33.770] }, "properties": { "intensity": 1.0 } }
+    ]
+};
 
-    const secondsPerRevolution = 120;
-    const maxSpinZoom = 5;
-    const slowSpinZoom = 3;
-    let userInteracting = false;
-    let spinEnabled = true;
+map.on('load', () => {
+    map.addSource('heatmap-source', { "type": "geojson", "data": heatmapData });
 
-    function spinGlobe() {
-        const zoom = map.getZoom();
-        if (spinEnabled && !userInteracting && zoom < maxSpinZoom) {
-            let distancePerSecond = 360 / secondsPerRevolution;
-            if (zoom > slowSpinZoom) {
-                const zoomDif = (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom);
-                distancePerSecond *= zoomDif;
-            }
-            const center = map.getCenter();
-            center.lng -= distancePerSecond;
-            map.easeTo({ center, duration: 1000, easing: (n) => n });
+    map.addLayer({
+        "id": "heatmap-layer",
+        "type": "heatmap",
+        "source": "heatmap-source",
+        "paint": {
+            "heatmap-weight": ["interpolate", ["linear"], ["get", "intensity"], 0, 0, 1, 1],
+            "heatmap-intensity": 1, //last edit
+            "heatmap-color": [
+                "interpolate",
+                ["linear"],
+                ["heatmap-density"],
+                0, "rgba(0, 0, 0, 0)",   // 🔹 Fully transparent when no reports
+                0.2, "rgba(255, 255, 255, 0.1)", // 🔹 Slight white glow for low activity
+                0.4, "rgba(255, 255, 0, 0.5)",  // 🟡 Yellow as density increases
+                0.6, "rgba(255, 165, 0, 0.7)", // 🟠 Orange for medium density
+                0.8, "rgba(255, 0, 0, 0.8)",  // 🔴 Red for high density
+                1, "rgba(139, 0, 0, 1.0)"  // 🔥 Dark Red for maximum hotspots
+            ],
+            "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 10, 20, 15, 40]
         }
+    });
+
+    // Simulated Heatmap Update
+    function updateHeatmap() {
+        heatmapData.features.forEach(feature => {
+            feature.properties.intensity = Math.random(); // Random intensity for testing
+        });
+        map.getSource('heatmap-source').setData(heatmapData);
     }
 
-    map.on('mousedown', () => { userInteracting = true; });
-    map.on('mouseup', () => { userInteracting = false; spinGlobe(); });
-    map.on('dragend', () => { userInteracting = false; spinGlobe(); });
-    map.on('pitchend', () => { userInteracting = false; spinGlobe(); });
-    map.on('rotateend', () => { userInteracting = false; spinGlobe(); });
-    map.on('moveend', () => { spinGlobe(); });
+    setInterval(updateHeatmap, 5000);
 
-    document.getElementById('btn-spin').addEventListener('click', (e) => {
-        spinEnabled = !spinEnabled;
-        if (spinEnabled) {
-            spinGlobe();
-            e.target.innerHTML = 'Pause rotation';
-        } else {
-            map.stop();
-            e.target.innerHTML = 'Start rotation';
-        }
-    });
 
-    spinGlobe();
+    
+
+});
+
+// Post Button Actions
+document.getElementById('post-button').addEventListener('click', () => {
+    document.getElementById('post-modal').style.display = 'block';
+});
+document.getElementById('close-modal').addEventListener('click', () => {
+    document.getElementById('post-modal').style.display = 'none';
+});
+document.getElementById('submit-post').addEventListener('click', () => {
+    const postContent = document.getElementById('post-content').value;
+    if (postContent.trim() === "") {
+        alert("Post cannot be empty!");
+        return;
+    }
+    alert("Post submitted: " + postContent);
+    document.getElementById('post-modal').style.display = 'none';
+});
 </script>
+
 </body>
 </html>
