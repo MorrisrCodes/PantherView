@@ -1,26 +1,48 @@
 import React from "react";
-import "./HomePage.css";
+import { useNavigate } from "react-router-dom";
+import "./EntryPage.css";
 
-function HomePage() {
+function EntryPage() {
+  const navigate = useNavigate();
+
+  const handleEnter = () => {
+    navigate("/login");
+  };
+
   return (
-    <div className="home-container">
-      <div className="logo-container">
-        <img src="/images/gsupantherlogo.png" alt="GSU Logo" className="gsu-logo" />
-        <button className="button" data-text="Awesome">
-          <span className="actual-text">&nbsp;PantherView&nbsp;</span>
-          <span aria-hidden="true" className="hover-text">&nbsp;PantherView&nbsp;</span>
-        </button>
+    <div className="entry-background-gif">
+      <img src="/images/PantherViewHomePage.gif" alt="Background gif" className="background-gif" />
+      <div className="entry-header">
+        <header>
+          <div className="header-text">PantherView</div>
+          <img src="/images/pixel-panther.png" alt="Panther logo" className="header-logo" />
+        </header>
+        {/* entry-logo class for panther pixel image */}
       </div>
-      <div className="content-container">
-        <div className="map-container">
-          <p>Map</p>
+      
+      <div className="intro-container">
+        <div className="intro-header">
+          <p> Stay Connected, Stay Safe. </p>
         </div>
-        <div className="chat-box">
-          <p>Chat</p>
+        <div className="introduction">
+          <p>Join the Georgia State community in making our campus safer and more connected. Share and receive real-time alerts about campus activities and safety concerns.</p>
+        </div>
+      </div>
+
+      <div className="button">
+        <button onClick={handleEnter}>Get Started</button>
+      </div>
+
+
+      <div className="safety-container">
+        <div className="safety-image">
+          {/* insert image */}
+          <h2><b>Safety Alerts</b></h2>
+          <h3>Receive real-time notifications about safety concerns on campus</h3>
         </div>
       </div>
     </div>
   );
 }
 
-export default HomePage;
+export default EntryPage;

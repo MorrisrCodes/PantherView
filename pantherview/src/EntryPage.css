@@ -1,30 +1,135 @@
-.entry-page-wrapper {
+/* Reset default margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.entry-background-gif {
+    position: fixed;  /* Fix position to viewport */
+    top: 0;
+    left: 0;
+    width: 100%;  /* Full width */
+    height: 100vh;  /* Full viewport height */
+    min-height: -webkit-fill-available;  /* For iOS Safari */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(210deg, #0071CE, #171f31, #284aa1);
-    padding: 20px;
+    padding: 0;  /* Remove padding */
+    /*overflow: hidden;*/ /* Prevent scrolling */
 }
+
+/* Add this to target the actual GIF/image inside */
+.entry-background-gif img {  /* or video, depending on your element */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    object-fit: cover;  /* Makes image cover entire container */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;  /* Places behind other content */
+    filter: brightness(0.5);
+}
+
+/* Media queries for different screen sizes */
+@media screen and (max-width: 768px) {
+    .entry-background-gif {
+        height: 100dvh;  /* Dynamic viewport height for mobile */
+    }
+}
+
+/* For iOS Safari specific height issue */
+@supports (-webkit-touch-callout: none) {
+    .entry-background-gif {
+        height: -webkit-fill-available;
+    }
+}
+
+/* header */
+header {
+    background-color: #0039A6;
+    color: white;
+    width: 100vw;
+    height: 13vh;
+    min-height: 60px;
+    padding: 20px 5%;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 60px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    z-index: 10;
+
+     /* iOS support */
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+ }
 
 /* logo */
-.entry-logo-container {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+.header-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    position: relative; 
 }
 
-.entry-logo {
-    width: 600px;
-    height: auto;
+/* Add media queries for smaller screens */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 10px 3%;
+    }
 }
 
-/* button */ 
-.entry-container {
+.intro-container {
+    position: relative;
+    top: -15vh; /* Move up by 10% of viewport height - adjust as needed */
+    margin-bottom: 30px; /* Add space below for other content */
+}
+
+.intro-header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 98%;
+    text-align: center;
+    height: auto;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 45px;
+    color: white;
+    width: 80%; /* Limit width for better readability */
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
+}
+
+.button {
+    position: relative;
+    top: -20vh; /* Move up by 10% of viewport height - adjust as needed */
+    margin-bottom: 30px; /* Add space below for other content */
+}
+
+/* intro paragrah */ 
+.introduction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: auto;
+    font-family: 'Arial', sans-serif;
+    font-size: 30px;
+    color: white;
+    width: 70%; /* Limit width for better readability */
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
 }
