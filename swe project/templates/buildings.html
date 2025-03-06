@@ -62,6 +62,9 @@
       // Add Navigation Control
       map.addControl(new maplibregl.NavigationControl(), 'bottom-left');
 
+
+
+    
       // Building Data
       const buildings = [
           { name: "University Library", coords: [-84.3865, 33.7528] },
@@ -95,6 +98,8 @@
           { name: "Woodruff Park", coords: [-84.3886, 33.7552] },
           { name: "Hurt Park", coords: [-84.3854, 33.7540] },
       ]
+
+
 
       // Add Markers
       buildings.forEach(building => {
@@ -133,6 +138,8 @@
               .addTo(map);
       });
 
+
+
       function populateSidebar() {
     // Populate Buildings
     const buildingList = document.getElementById("building-list");
@@ -164,6 +171,7 @@
         parkList.appendChild(listItem);
     });
 }
+
 
 
 //dropdown for buildings in sidebar
@@ -201,15 +209,14 @@ function toggleBuildingDropdown(element) {
 
 // Report Issue Function
 function reportIssue(buildingName) {
-    alert(`Issue reported for ${buildingName}`);
+    generateIssueTypeButtons();
 }
 
 // Report Event Function
 function reportEvent(buildingName) {
-    alert(`Event reported for ${buildingName}`);
+    generateEventTypeButtons();
 }
 
-// Load buildings on page load
 populateBuildings();
 
 
@@ -246,11 +253,11 @@ function toggleDormDropdown(element) {
 }
 
 function reportIssue(dormName) {
-    alert(`Issue reported for ${dormName}`);
+    generateIssueTypeButtons();
 }
 
 function reportEvent(dormName) {
-    alert(`Event reported for ${dormName}`);
+    generateEventTypeButtons();
 }
 
 populateDorms();
@@ -289,19 +296,48 @@ function toggleParkDropdown(element) {
 }
 
 function reportIssue(parkName) {
-    alert(`Issue reported for ${parkName}`);
+    generateIssueTypeButtons();
 }
 
 function reportEvent(parkName) {
-    alert(`Event reported for ${parkName}`);
+    generateEventTypeButtons();
 }
 
 populateParks();
 
+
+function generateIssueTypeButtons() {
+    const issueTypes = ["Vandalism", "Theft", "Safety Hazard", "Fight", "Other"];
+    const issueContainer = document.getElementById("issue-buttons");
+    issueContainer.innerHTML = ''; // Clear old buttons
+
+    issueTypes.forEach(type => {
+        let button = document.createElement("button");
+        button.textContent = type;
+        button.onclick = () => alert(`Issue reported for ${type}`);
+        issueContainer.appendChild(button);
+    });
+}
+
+function generateEventTypeButtons() {
+    const eventTypes = ["Concert", "Protest", "Career", "PIN", "Other"];
+    const eventContainer = document.getElementById("event-buttons");
+    eventContainer.innerHTML = ''; // Clear old buttons
+    
+    eventTypes.forEach(type => {
+        let button = document.createElement("button");
+        button.textContent = type;
+        button.onclick = () => alert(`Event reported for ${type}`);
+        eventContainer.appendChild(button);
+    });
+}
+
+
+
       // Placeholder Functions
       function toggleAlerts() { alert("Alerts feature coming soon!"); }
       function toggleBuildingLabels() { alert("Building Labels feature coming soon!"); }
-      function toggle3DBuildings() { alert("3D Buildings feature coming soon!"); }
+      function toggle3DBuildings() { alert("Chat feature coming soon!"); }
       function reportIssue(building) { alert(`Issue reported for ${building}`); }
       function reportEvent(building) { alert(`Event reported for ${building}`); }
 
