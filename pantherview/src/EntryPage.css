@@ -1,135 +1,219 @@
-/* Reset default margins and padding */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.entry-background-gif {
-    position: fixed;  /* Fix position to viewport */
-    top: 0;
-    left: 0;
-    width: 100%;  /* Full width */
-    height: 100vh;  /* Full viewport height */
-    min-height: -webkit-fill-available;  /* For iOS Safari */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0;  /* Remove padding */
-    /*overflow: hidden;*/ /* Prevent scrolling */
-}
-
-/* Add this to target the actual GIF/image inside */
-.entry-background-gif img {  /* or video, depending on your element */
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    object-fit: cover;  /* Makes image cover entire container */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;  /* Places behind other content */
-    filter: brightness(0.5);
-}
-
-/* Media queries for different screen sizes */
-@media screen and (max-width: 768px) {
-    .entry-background-gif {
-        height: 100dvh;  /* Dynamic viewport height for mobile */
-    }
-}
-
-/* For iOS Safari specific height issue */
-@supports (-webkit-touch-callout: none) {
-    .entry-background-gif {
-        height: -webkit-fill-available;
-    }
-}
-
-/* header */
 header {
-    background-color: #0039A6;
-    color: white;
-    width: 100vw;
-    height: 13vh;
-    min-height: 60px;
-    padding: 20px 5%;
     justify-content: space-between;
     align-items: center;
-    text-align: left;
     display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow: hidden;
+    background-color: #0039A6;
+}
+
+.name {
+    position: flex;
+    color: white;
     font-family: 'Arial', sans-serif;
+    font-size: 45px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    margin-left: 20px;
+}
+
+.panther-logo {
+    position: flex;
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 20px;
+}
+
+/* Places intro in the center of the screen */
+.center{
+    width: 70%;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Holds all intro info */
+.intro-container{
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    
+}
+
+/* Introduction title */
+.intro-header {
+    font-size: 35px;
+    display: flex;
+    color: white;
+    margin-top: 10px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
+    font-family: 'Arial', sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Introduction paragraph */
+.intro {
+    font-size: 20px;
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
+    font-family: 'Arial', sans-serif;
+    padding-right: 80px;
+    padding-left: 80px;
+}
+
+.start-button {
+    margin: 12px 0;
+    padding: 12px ;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
     font-weight: bold;
-    font-size: 60px;
+    font-family: 'Arial', sans-serif;
+    width: 15%;
+    margin-top: 20px;
+}
+
+/* button hover */
+.start-button button:hover {
+    background-color: #83131e;
+}
+
+.box-1 {
+    opacity: 0.5;
+    position: center;
+    background-color: grey;
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    z-index: 10;
+    border-radius: 25px;
+    width: 70%;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
 
-     /* iOS support */
-     -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-     box-sizing: border-box;
- }
-
-/* logo */
-.header-logo {
+.box-1-logo {
+    position: flex;
     height: 40px;
     width: auto;
     object-fit: contain;
-    position: relative; 
+    margin-top: 10px;
 }
 
-/* Add media queries for smaller screens */
-@media screen and (max-width: 768px) {
-    header {
-        padding: 10px 3%;
-    }
+.box-1-content {
+    margin-bottom: 10px;
 }
 
-.intro-container {
-    position: relative;
-    top: -15vh; /* Move up by 10% of viewport height - adjust as needed */
-    margin-bottom: 30px; /* Add space below for other content */
-}
-
-.intro-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: auto;
-    font-family: 'Arial', sans-serif;
-    font-weight: bold;
-    font-size: 45px;
+.box-1-header {
     color: white;
-    width: 80%; /* Limit width for better readability */
-    margin: 0 auto; /* Center the container */
-    padding: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
 }
 
-.button {
-    position: relative;
-    top: -20vh; /* Move up by 10% of viewport height - adjust as needed */
-    margin-bottom: 30px; /* Add space below for other content */
-}
-
-/* intro paragrah */ 
-.introduction {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: auto;
+/* box 2 */
+.box-2 {
+    opacity: 0.5;
+    position: center;
+    background-color: grey;
     font-family: 'Arial', sans-serif;
-    font-size: 30px;
+    font-size: 15px;
     color: white;
-    width: 70%; /* Limit width for better readability */
-    margin: 0 auto; /* Center the container */
-    padding: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    border-radius: 25px;
+    width: 70%;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.box-2-logo {
+    position: flex;
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    margin-top: 10px;
+}
+
+.box-2-content {
+    margin-bottom: 10px;
+}
+
+.box-2-header {
+    color: white;
+}
+
+/* box 3 */
+.box-3 {
+    opacity: 0.5;
+    position: center;
+    background-color: grey;
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    border-radius: 25px;
+    width: 70%;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.box-3-logo {
+    position: flex;
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    margin-top: 10px;
+}
+
+.box-3-content {
+    margin-bottom: 10px;
+}
+
+.box-3-header {
+    color: white;
+}
+
+/* box 4 */
+.box-4 {
+    opacity: 0.5;
+    position: center;
+    background-color: grey;
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    border-radius: 25px;
+    width: 70%;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.box-4-logo {
+    position: flex;
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    margin-top: 10px;
+}
+
+.box-4-content {
+    margin-bottom: 10px;
+}
+
+.box-4-header {
+    color: white;
 }
