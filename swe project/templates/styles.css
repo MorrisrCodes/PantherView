@@ -172,3 +172,27 @@ body, html {
     background-color: #003f80;
 }
 
+.maplibregl-popup-content #issue-buttons,
+.maplibregl-popup-content #event-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.maplibregl-popup-content #issue-buttons button,
+.maplibregl-popup-content #event-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.maplibregl-popup-content #issue-buttons button:hover,
+.maplibregl-popup-content #event-buttons button:hover {
+    background-color: #0056b3;
+}

@@ -306,31 +306,51 @@ function reportEvent(parkName) {
 populateParks();
 
 
-function generateIssueTypeButtons() {
-    const issueTypes = ["Vandalism", "Theft", "Safety Hazard", "Fight", "Other"];
+// Report Issue Function
+function generateIssueTypeButtons(locationName) {
     const issueContainer = document.getElementById("issue-buttons");
     issueContainer.innerHTML = ''; // Clear old buttons
 
+    // Define issue types
+    const issueTypes = ["Theft", "Safety Hazard", "Vandalism", "Fight", "Other"];
+
+    // Generate buttons for each issue type
     issueTypes.forEach(type => {
         let button = document.createElement("button");
         button.textContent = type;
-        button.onclick = () => alert(`Issue reported for ${type}`);
+        button.onclick = () => handleIssueSelection(locationName, type);
         issueContainer.appendChild(button);
     });
 }
 
+// Handle Issue Selection
+function handleIssueSelection(locationName, issueType) {
+    alert(`Issue reported for ${locationName}: ${issueType}`);
+    // Here you can add further logic, like submitting a report or displaying a form
+}
+
 function generateEventTypeButtons() {
-    const eventTypes = ["Concert", "Protest", "Career", "PIN", "Other"];
     const eventContainer = document.getElementById("event-buttons");
     eventContainer.innerHTML = ''; // Clear old buttons
-    
+
+    // Define event types
+    const eventTypes = ["Party", "Protest", "Concert", "Meeting", "Other"];
+
+    // Generate buttons for each event type
     eventTypes.forEach(type => {
         let button = document.createElement("button");
         button.textContent = type;
-        button.onclick = () => alert(`Event reported for ${type}`);
+        button.onclick = () => handleEventSelection(type);
         eventContainer.appendChild(button);
     });
 }
+
+// Handle Event Selection
+function handleEventSelection(eventType) {
+    alert(`Event reported: ${eventType}`);
+    // Here you can add further logic, like submitting a report or displaying a form
+}
+
 
 
 
