@@ -11,6 +11,9 @@ function EntryPage() {
 
   return (
     <div className="main">
+      <div className="background">
+        <img src="/images/PantherViewHomepage.png"/>
+      </div>
       <header>
         <div className="name">
           <h1> PantherView </h1>
