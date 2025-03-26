@@ -9,6 +9,10 @@ function LoginPage() {
     navigate("/home");
   };
 
+  const handleSignUp = () => {
+    navigate("/signup"); 
+  };
+
   return (
     <div className="login-page-wrapper">
       <div className="login-container">
@@ -22,7 +26,8 @@ function LoginPage() {
           <h1>PantherView</h1>
           <input type="text" placeholder="StudentID" />
           <input type="password" placeholder="Password" />
-          <button onClick={handleSignIn}>Sign In</button> 
+          <button onClick={handleSignIn}>Sign In</button>
+          <button className="sign-up-button" onClick={handleSignUp}>Sign Up</button>
         </div>
       </div>
     </div>
