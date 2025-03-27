@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Posts</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 0; background: #f0f0f0; }
+        h1 { background: #0056d2; color: white; padding: 20px; margin: 0; text-align: center; }
+
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th { background-color: #0056d2; color: white; }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .badge-verified { background-color: #28a745; color: white; }
+        .badge-action a { text-decoration: none; color: #856404; }
+        .badge-action { background-color: #ffc107; }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100px;
+        }
+
+        .btn-edit { background: #ffc107; }
+        .btn-delete { background: #dc3545; color: white; }
+        .btn-verify { background: #28a745; color: white; }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-form {
+            margin: 4px 0;
+        }
+
+        .flash-container {
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        .flash-message {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .flash-fade-out {
+            opacity: 0;
+        }
+
+        .success { background-color: #d4edda; color: #155724; }
+        .danger { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #cce5ff; color: #004085; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            width: 400px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-content button {
+            width: 100%;
+            background: #0056d2;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .create-post-form {
+            width: 90%;
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .create-post-form input,
+        .create-post-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .create-post-form button {
+            background-color: #0056d2;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Manage Posts</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; margin-top: -20px;">
+    <a href="{{ url_for('admin') }}">
+        <button style="padding: 8px 16px; background-color: #6c757d; color: white; border: none; border-radius: 4px;">&larr; Back to Admin</button>
+    </a>
+    <form method="get" action="{{ url_for('manage_posts') }}">
+        <label for="filter">Filter:</label>
+        <select name="filter" onchange="this.form.submit()">
+          <option value="all" {% if current_filter == 'all' %}selected{% endif %}>All</option>
+          <option value="verified" {% if current_filter == 'verified' %}selected{% endif %}>Verified</option>
+          <option value="pending" {% if current_filter == 'pending' %}selected{% endif %}>Needs Action</option>
+        </select>
+    </form>
+    <a href="{{ url_for('logout') }}">
+        <button style="padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px;">Log Out</button>
+    </a>
+</div>
+
+<!-- Create Post Form -->
+<div class="create-post-form">
+    <h3>Make Post</h3>
+    <form method="POST" action="{{ url_for('add_post') }}">
+        <input type="text" name="title" placeholder="Post Title" required>
+        <textarea name="content" placeholder="Post Content" rows="4" required></textarea>
+        <button type="submit">Add Post</button>
+    </form>
+</div>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- Posts Table -->
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.id }}</td>
+            <td>{{ post.title }}</td>
+            <td>
+                {% if post.status == "Verified" %}
+                    <span class="badge badge-verified">Verified</span>
+                {% else %}
+                    <span class="badge badge-action"><a href="#post-{{ post.id }}">Take Action</a></span>
+                {% endif %}
+            </td>
+            <td id="post-{{ post.id }}">
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-edit"
+                            onclick="openModal({{ post.id }}, '{{ post.title }}', `{{ post.content }}`)">Edit</button>
+
+                    <form class="action-form" action="{{ url_for('delete_post', post_id=post.id) }}" method="GET" onsubmit="return confirm('Delete this post?');">
+                        <button type="submit" class="btn btn-delete">Delete</button>
+                    </form>
+
+                    <form class="action-form" action="{{ url_for('verify_post', post_id=post.id) }}" method="GET" onsubmit="return confirm('Verify this post?');">
+                        <button type="submit" class="btn btn-verify">Verify</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>Edit Post</h3>
+    <form id="editForm" method="POST">
+      <input type="text" name="title" id="modalTitle" placeholder="Title" required>
+      <textarea name="content" id="modalContent" rows="4" placeholder="Content" required></textarea>
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- Bottom corner logos -->
+<div style="position: fixed; bottom: 10px; left: 10px;">
+    <img src="{{ url_for('static', filename='images/gsuwordlogo.png') }}" alt="GSU Word Logo" style="height: 60px;">
+</div>
+<div style="position: fixed; bottom: 10px; right: 10px;">
+    <img src="{{ url_for('static', filename='images/gsupantherlogo.png') }}" alt="Panther Logo" style="height: 60px;">
+</div>
+
+<!-- JavaScript for modal & flash -->
+<script>
+  // Flash auto-fade
+  window.onload = function () {
+    const flashes = document.querySelectorAll('.flash-message');
+    flashes.forEach(flash => {
+      setTimeout(() => {
+        flash.classList.add('flash-fade-out');
+        setTimeout(() => flash.remove(), 1000);
+      }, 3000);
+    });
+  };
+
+  // Modal handling with scroll lock
+  function openModal(postId, title, content) {
+    document.getElementById('modalTitle').value = title;
+    document.getElementById('modalContent').value = content;
+    document.getElementById('editForm').action = `/admin/edit/${postId}`;
+    document.getElementById('editModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  window.onclick = function(event) {
+    let modal = document.getElementById('editModal');
+    if (event.target === modal) {
+      closeModal();
+    }
+  }
+</script>
+
+</body>
+</html>
