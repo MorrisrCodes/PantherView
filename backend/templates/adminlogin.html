@@ -96,13 +96,14 @@
   <h2>ADMIN LOGIN</h2>
 
   {% if error %}
-    <div id="error-msg">{{ error }}</div>
-    <script>
-      setTimeout(() => {
-        document.getElementById('error-msg').style.display = 'none';
-      }, 5000);
-    </script>
-  {% endif %}
+  <div id="error-msg">{{ error }}</div>
+  <script>
+    setTimeout(() => {
+      document.getElementById('error-msg').style.display = 'none';
+    }, 5000);
+  </script>
+{% endif %}
+
 
   <form method="POST">
     <label for="username">Username</label>
