@@ -1,203 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Manage Users</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        h1 { background-color: #0056d2; color: white; margin: 0; padding: 20px; text-align: center; }
-
-        .nav {
-            display: flex;
-            justify-content: space-around;
-            background: #222;
-            padding: 12px;
-        }
-
-        .nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .nav a:hover {
-            text-decoration: underline;
-        }
-
-        .logout-container {
-            text-align: right;
-            margin: 10px 5% 0 0;
-        }
-
-        .logout-container a button {
-            padding: 8px 16px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .container {
-            width: 90%;
-            margin: 30px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-
-        .add-user-box {
-            background: #e9f1ff;
-            border: 1px solid #c3dafe;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 6px;
-        }
-
-        .add-user-box h3 {
-            margin-top: 0;
-        }
-
-        .add-user-box input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .add-user-box button {
-            width: 100%;
-            background: #0056d2;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 14px;
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-        }
-
-        th {
-            background-color: #0056d2;
-            color: white;
-        }
-
-        .action-buttons a {
-            margin: 0 5px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .action-buttons a.edit { color: #ffc107; }
-        .action-buttons a.delete { color: #dc3545; }
-
-        /* Logos */
-        .bottom-logo {
-            position: fixed;
-            bottom: 10px;
-            height: 60px;
-        }
-
-        .left-logo { left: 10px; }
-        .right-logo { right: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Manage Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #111;
+      color: white;
+    }
+    .navbar {
+      background-color: #222;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tabs a {
+      color: #00aaff;
+      text-decoration: none;
+      margin-right: 20px;
+    }
+    .container {
+      padding: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1e1e1e;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #444;
+      text-align: center;
+    }
+    th {
+      background-color: #333;
+    }
+    .btn {
+      background-color: #28a745;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-edit {
+      background-color: #ffc107;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+    }
+    .modal, .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 99;
+    }
+    .modal {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 8px;
+      width: 400px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      color: white;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #333;
+      border: none;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-
-<h1>Manage Users</h1>
-
-<div class="nav">
-    <a href="#">Dashboard</a>
-    <a href="{{ url_for('manage_posts') }}">Manage Posts</a>
-    <a href="{{ url_for('manage_users') }}">Manage Users</a>
-    <a href="#">View Map</a>
-</div>
-
-<div class="logout-container">
-    <a href="{{ url_for('logout') }}">
-        <button>Log Out</button>
-    </a>
-</div>
-
-<div class="container">
-    <div class="add-user-box">
-        <h3>Add New User</h3>
-        <form id="userForm">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Add User</button>
-        </form>
+  <div class="navbar">
+    <div class="tabs">
+      <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('manage_posts') }}">Manage Posts</a>
+      <a href="{{ url_for('manage_users') }}">Manage Users</a>
     </div>
+    <button class="btn" onclick="openNewUserModal()">+ New User</button>
+  </div>
 
-    <h2>Users</h2>
-    <table id="userTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="userTableBody">
-            {% for user in users %}
-            <tr id="user-{{ user.id }}">
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td class="action-buttons">
-                    <a href="/admin/edit_user/{{ user.id }}" class="edit">Edit</a>
-                    <a href="/admin/delete_user/{{ user.id }}" class="delete" onclick="return confirm('Delete this user?');">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="usersTable">
+        <tr>
+          <td>admin</td>
+          <td>admin@example.com</td>
+          <td>
+            <button class="btn btn-edit" onclick="openEditModal(this)">✏️ Edit</button>
+            <button class="btn btn-delete" onclick="deleteUser(this)">🗑️ Delete</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</div>
+  </div>
 
-<img src="{{ url_for('static', filename='images/gsuwordlogo.png') }}" alt="GSU Word Logo" class="bottom-logo left-logo">
-<img src="{{ url_for('static', filename='images/gsupantherlogo.png') }}" alt="Panther Logo" class="bottom-logo right-logo">
+  <div class="overlay" id="overlay"></div>
 
-<script>
-  document.getElementById('userForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    const response = await fetch("{{ url_for('add_user') }}", {
-      method: 'POST',
-      body: formData
-    });
-    if (response.ok) {
-      const newUser = await response.json();
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${newUser.id}</td>
-        <td>${newUser.username}</td>
-        <td>${newUser.email}</td>
-        <td class="action-buttons">
-            <a href="/admin/edit_user/${newUser.id}" class="edit">Edit</a>
-            <a href="/admin/delete_user/${newUser.id}" class="delete" onclick="return confirm('Delete this user?');">Delete</a>
-        </td>
-      `;
-      document.getElementById('userTableBody').appendChild(row);
-      this.reset();
-    } else {
-      alert("Failed to add user");
+  <div class="modal" id="userModal">
+    <h3 id="modalTitle">New User</h3>
+    <input type="text" id="userName" placeholder="Username">
+    <input type="email" id="userEmail" placeholder="Email">
+    <button class="btn" onclick="saveUser()">Save</button>
+  </div>
+
+  <script>
+    let editingRow = null;
+
+    function openNewUserModal() {
+      editingRow = null;
+      document.getElementById('modalTitle').innerText = 'New User';
+      document.getElementById('userName').value = '';
+      document.getElementById('userEmail').value = '';
+      document.getElementById('userModal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
     }
-  });
-</script>
 
+    function openEditModal(btn) {
+      editingRow = btn.closest('tr');
+      const username = editingRow.children[0].innerText;
+      const email = editingRow.children[1].innerText;
+      document.getElementById('modalTitle').innerText = 'Edit User';
+      document.getElementById('userName').value = username;
+      document.getElementById('userEmail').value = email;
+      document.getElementById('userModal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    function saveUser() {
+      const username = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+
+      if (editingRow) {
+        editingRow.children[0].innerText = username;
+        editingRow.children[1].innerText = email;
+        alert('User updated successfully.');
+      } else {
+        const table = document.getElementById('usersTable');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td>${username}</td>
+          <td>${email}</td>
+          <td>
+            <button class="btn btn-edit" onclick="openEditModal(this)">✏️ Edit</button>
+            <button class="btn btn-delete" onclick="deleteUser(this)">🗑️ Delete</button>
+          </td>`;
+        table.appendChild(newRow);
+        alert('User added successfully.');
+      }
+
+      closeModal();
+    }
+
+    function deleteUser(btn) {
+      const row = btn.closest('tr');
+      row.remove();
+      alert('User deleted successfully.');
+    }
+
+    function closeModal() {
+      document.getElementById('userModal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
+
+    document.getElementById('overlay').addEventListener('click', closeModal);
+  </script>
 </body>
 </html>
-
