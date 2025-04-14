@@ -1,144 +1,215 @@
 .home-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background: linear-gradient(210deg, #0071CE, #171f31, #284aa1); 
-    padding: 20px;
-  }
-  
-  /* title */
-  .logo-container {
-    position: absolute;
-    top: 20px;
-    left: 50px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  /* gsu logo */
-  .gsu-logo {
-    width: 120px;
-    height: auto;
-  }
-  
-  /* logo */
-  .logo-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* home button title */
-  .button {
-    margin: 0;
-    height: auto;
-    background: transparent;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    --border-right: 6px;
-    --text-stroke-color: rgba(255,255,255,0.6);
-    --animation-color: #cc0000fa;
-    --fs-size: 2em;
-    letter-spacing: 5px;
-    text-decoration: none;
-    font-size: var(--fs-size);
-    font-family: "Arial";
-    position: relative;
-    text-transform: uppercase;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--text-stroke-color);
-  }
-  
-  /* hover button text */
-  .hover-text {
-    position: absolute;
-    box-sizing: border-box;
-    content: attr(data-text);
-    color: var(--animation-color);
-    width: 0%;
-    inset: 0;
-    border-right: var(--border-right) solid var(--animation-color);
-    overflow: hidden;
-    transition: 0.5s;
-    -webkit-text-stroke: 1px var(--animation-color);
-  }
-  
-  /* hover */
-  .button:hover .hover-text {
-    width: 98%;
-    filter: drop-shadow(10 10 10px var(--animation-color));
-  }
-  
-  /* map chat layout */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(210deg, #0071CE, #171f31, #284aa1);
+  padding: 20px;
+}
+
+/* Logo */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gsu-logo {
+  width: 120px;
+  height: auto;
+}
+
+/* Home Button Title */
+.button {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  --border-right: 6px;
+  --text-stroke-color: rgba(255,255,255,0.6);
+  --animation-color: #cc0000fa;
+  --fs-size: 2em;
+  letter-spacing: 5px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "Arial";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+/* Hover Button Text */
+.hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+
+/* Hover */
+.button:hover .hover-text {
+  width: 98%;
+  filter: drop-shadow(10 10 10px var(--animation-color));
+}
+
+/* Search Bar  */
+.search-bar {
+  width: calc(100% - 40px);
+  padding: 12px;
+  margin-top: 110px;
+  margin-bottom: -80px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: white;
+  outline: none;
+  align-self: center;
+}
+
+.search-bar::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Content Layout */
+.content-container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  height: 100%;
+}
+
+/* Map Section */
+.map-container {
+  flex: 2;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  color: white;
+  position: relative;
+}
+
+/* Taskbar under Map */
+.taskbar {
+  width: 100%;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: flex-start;
+  position: absolute;
+  bottom: 0;
+  border-radius: 0 0 10px 10px;
+  gap: 10px;
+}
+
+.taskbar-button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: #CC0000;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.taskbar-button:hover {
+  background-color: #83131e;
+}
+
+/* Dropdown Box */
+.taskbar-item {
+  position: relative;
+}
+
+.dropdown-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 10;
+  text-align: center;
+}
+
+/* Chat Section */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 80%;
+  width: 100%;
+}
+
+/* Alerts Container */
+.alerts-container {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* Chats Container */
+.chats-container {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
   .content-container {
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    height: 100%;
+    flex-direction: column;
   }
-  
-  /* map */
-  .map-container {
-    flex: 2; /* Takes up most of the space */
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    color: white;
+
+  .map-container,
+  .chat-container {
+    width: 100%;
+    height: 20%;
   }
-  
-  /* chat */
-  .chat-box {
-    flex: 1; /* Smaller than the map */
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    color: white;
+
+  .gsu-logo {
+    width: 100px;
   }
-  
-  /* button */
-  .button-container {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    padding-top: 20px;
+
+  .button {
+    font-size: 1.5em;
   }
-  
-  /* mobile needs fixing because the map needs to be resized and so does the logo*/
-  @media (max-width: 768px) {
-    .content-container {
-      flex-direction: column; 
-    }
-  
-    .map-container,
-    .chat-box {
-      width: 100%;
-      height: 20%;
-    }
-  
-    .gsu-logo {
-      width: 100px;
-    }
-  
-    .logo-title {
-      font-size: 6px;
-    }
-  
-    .button {
-      font-size: 1.5em;
-    }
-  }
-  
+}
+

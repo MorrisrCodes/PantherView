@@ -58,6 +58,7 @@ body, html {
 
 /* logo size */
 .login-logo {
+  position: absolute;
   width: 500px; 
   max-width: 100%;
 }
