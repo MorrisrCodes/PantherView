@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Posts</title>
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="tabs">
+        <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('manage_posts') }}">Manage Posts</a>
+        <a href="{{ url_for('manage_users') }}">Manage Users</a>        
+    </div>
+    <button class="btn" onclick="openNewPostModal()">+ New Post</button>
+  </div>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Comment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="postsTable">
+        <tr>
+          <td>Example Post</td>
+          <td>This is a comment.</td>
+          <td>
+            <button class="btn btn-edit" onclick="openEditModal(this)">✏️ Edit</button>
+            <button class="btn btn-delete" onclick="deletePost(this)">🗑️ Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Modal for Editing or Creating Posts -->
+  <div class="modal" id="postModal">
+    <h3 id="modalTitle">New Post</h3>
+    <input type="text" id="postTitle" placeholder="Title">
+    <textarea id="postComment" placeholder="Comment"></textarea>
+    <button class="btn" onclick="savePost()">Save</button>
+  </div>
+
+  <script src="admin-script.js"></script>
+</body>
+</html>

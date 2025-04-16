@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Users</title>
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="tabs">
+      <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('manage_posts') }}">Manage Posts</a>
+      <a href="{{ url_for('manage_users') }}">Manage Users</a>
+    </div>
+    <button class="btn" onclick="openNewUserModal()">+ New User</button>
+  </div>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="usersTable">
+        <tr>
+          <td>admin</td>
+          <td>admin@example.com</td>
+          <td>
+            <button class="btn btn-edit" onclick="openEditModal(this)">✏️ Edit</button>
+            <button class="btn btn-delete" onclick="deleteUser(this)">🗑️ Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="modal" id="userModal">
+    <h3 id="modalTitle">New User</h3>
+    <input type="text" id="userName" placeholder="Username">
+    <input type="email" id="userEmail" placeholder="Email">
+    <button class="btn" onclick="saveUser()">Save</button>
+  </div>
+
+  <script src="admin-script.js"></script>
+</body>
+</html>
