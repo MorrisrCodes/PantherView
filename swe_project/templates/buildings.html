@@ -108,8 +108,9 @@
               .setPopup(new maplibregl.Popup().setHTML(`
                   <h3>${building.name}</h3>
                   <p>Georgia State University</p>
-                  <button onclick="reportIssue('${building.name}')">Report Issue</button>
-                  <button onclick="reportEvent('${building.name}')">Report Event</button>
+                  <button onclick="generateIssueTypeButtons('${building.name}', this.closest('.maplibregl-popup-content'))">Report Issue</button>
+                  <button onclick="generateEventTypeButtons('${building.name}', this.closest('.maplibregl-popup-content'))">Report Event</button>
+                  <div class="dynamic-buttons-container"></div>
               `))
               .addTo(map);
       });
@@ -120,8 +121,9 @@
               .setPopup(new maplibregl.Popup().setHTML(`
                   <h3>${dorm.name}</h3>
                   <p>Georgia State University</p>
-                  <button onclick="reportIssue('${dorm.name}')">Report Issue</button>
-                  <button onclick="reportEvent('${dorm.name}')">Report Event</button>
+                  <button onclick="generateIssueTypeButtons('${dorm.name}', this.closest('.maplibregl-popup-content'))">Report Issue</button>
+                  <button onclick="generateEventTypeButtons('${dorm.name}', this.closest('.maplibregl-popup-content'))">Report Event</button>
+                  <div id="dynamic-buttons-container"></div>
               `))
               .addTo(map);
       });
@@ -132,8 +134,9 @@
               .setPopup(new maplibregl.Popup().setHTML(`
                   <h3>${park.name}</h3>
                   <p>Georgia State University</p>
-                  <button onclick="reportIssue('${park.name}')">Report Issue</button>
-                  <button onclick="reportEvent('${park.name}')">Report Event</button>
+                  <button onclick="generateIssueTypeButtons('${park.name}', this.closest('.maplibregl-popup-content'))">Report Issue</button>
+                  <button onclick="generateEventTypeButtons('${park.name}', this.closest('.maplibregl-popup-content'))">Report Event</button>
+                  <div id="dynamic-buttons-container"></div>
               `))
               .addTo(map);
       });
@@ -175,27 +178,28 @@
 
 
 //dropdown for buildings in sidebar
-      function populateBuildings() {
-        const list = document.getElementById("building-list");
-        list.innerHTML = ''; // Clear old list
+function populateBuildings() {
+    const list = document.getElementById("building-list");
+    list.innerHTML = ''; // Clear old list
 
-        buildings.forEach(building => {
-            let listItem = document.createElement("li");
-            listItem.classList.add("building-item");
-            listItem.innerHTML = `
-                <span onclick="toggleBuildingDropdown(this)">${building.name}</span>
-                <div class="building-details">
-                    <button onclick="reportIssue('${building.name}')">Report Issue</button>
-                    <button onclick="reportEvent('${building.name}')">Report Event</button>
-                    <p><strong>Previous Alerts:</strong> None</p>
-                </div>
-            `;
+    buildings.forEach(building => {
+        let listItem = document.createElement("li");
+        listItem.classList.add("building-item");
+        listItem.innerHTML = `
+            <span onclick="toggleBuildingDropdown(this)">${building.name}</span>
+            <div class="building-details">
+                <button onclick="generateIssueTypeButtons('${building.name}', this.parentElement)">Report Issue</button>
+                <button onclick="generateEventTypeButtons('${building.name}', this.parentElement)">Report Event</button>
+                <div class="dynamic-buttons-container"></div>
+                <p><strong>Previous Alerts:</strong> None</p>
+            </div>
+        `;
 
-            listItem.onclick = (event) => {
-                if (!event.target.closest(".building-details")) {
-                    map.flyTo({ center: building.coords, zoom: 17 });
-                }
-            };
+        listItem.onclick = (event) => {
+            if (!event.target.closest(".building-details")) {
+                map.flyTo({ center: building.coords, zoom: 17 });
+            }
+        };
 
         list.appendChild(listItem);
     });
@@ -231,8 +235,9 @@ function populateDorms() {
         listItem.innerHTML = `
             <span onclick="toggleDormDropdown(this)">${dorm.name}</span>
             <div class="dorm-details">
-                <button onclick="reportIssue('${dorm.name}')">Report Issue</button>
-                <button onclick="reportEvent('${dorm.name}')">Report Event</button>
+                <button onclick="generateIssueTypeButtons('${dorm.name}', this.parentElement)">Report Issue</button>
+                <button onclick="generateEventTypeButtons('${dorm.name}', this.parentElement)">Report Event</button>
+                <div class="dynamic-buttons-container"></div>
                 <p><strong>Previous Alerts:</strong> None</p>
             </div>
         `;
@@ -274,8 +279,9 @@ function populateParks() {
         listItem.innerHTML = `
             <span onclick="toggleParkDropdown(this)">${park.name}</span>
             <div class="park-details">
-                <button onclick="reportIssue('${park.name}')">Report Issue</button>
-                <button onclick="reportEvent('${park.name}')">Report Event</button>
+                <button onclick="generateIssueTypeButtons('${park.name}', this.parentElement)">Report Issue</button>
+                <button onclick="generateEventTypeButtons('${park.name}', this.parentElement)">Report Event</button>
+                <div class="dynamic-buttons-container"></div>
                 <p><strong>Previous Alerts:</strong> None</p>
             </div>
         `;
@@ -306,10 +312,10 @@ function reportEvent(parkName) {
 populateParks();
 
 
-// Report Issue Function
-function generateIssueTypeButtons(locationName) {
-    const issueContainer = document.getElementById("issue-buttons");
-    issueContainer.innerHTML = ''; // Clear old buttons
+// Updated functions for sidebar
+function generateIssueTypeButtons(locationName, parentElement) {
+    const container = parentElement.querySelector('.dynamic-buttons-container');
+    container.innerHTML = ''; // Clear old buttons
 
     // Define issue types
     const issueTypes = ["Theft", "Safety Hazard", "Vandalism", "Fight", "Other"];
@@ -319,19 +325,13 @@ function generateIssueTypeButtons(locationName) {
         let button = document.createElement("button");
         button.textContent = type;
         button.onclick = () => handleIssueSelection(locationName, type);
-        issueContainer.appendChild(button);
+        container.appendChild(button);
     });
 }
 
-// Handle Issue Selection
-function handleIssueSelection(locationName, issueType) {
-    alert(`Issue reported for ${locationName}: ${issueType}`);
-    // Here you can add further logic, like submitting a report or displaying a form
-}
-
-function generateEventTypeButtons() {
-    const eventContainer = document.getElementById("event-buttons");
-    eventContainer.innerHTML = ''; // Clear old buttons
+function generateEventTypeButtons(locationName, parentElement) {
+    const container = parentElement.querySelector('.dynamic-buttons-container');
+    container.innerHTML = ''; // Clear old buttons
 
     // Define event types
     const eventTypes = ["Party", "Protest", "Concert", "Meeting", "Other"];
@@ -340,15 +340,20 @@ function generateEventTypeButtons() {
     eventTypes.forEach(type => {
         let button = document.createElement("button");
         button.textContent = type;
-        button.onclick = () => handleEventSelection(type);
-        eventContainer.appendChild(button);
+        button.onclick = () => handleEventSelection(locationName, type);
+        container.appendChild(button);
     });
 }
 
-// Handle Event Selection
-function handleEventSelection(eventType) {
-    alert(`Event reported: ${eventType}`);
-    // Here you can add further logic, like submitting a report or displaying a form
+// Handle selections (same as before)
+function handleIssueSelection(locationName, issueType) {
+    alert(`Issue reported for ${locationName}: ${issueType}`);
+    // Here you can add further logic
+}
+
+function handleEventSelection(locationName, eventType) {
+    alert(`Event reported for ${locationName}: ${eventType}`);
+    // Here you can add further logic
 }
 
 

@@ -213,3 +213,38 @@ body, html {
 .maplibregl-popup-content #event-buttons button:hover {
     background-color: #0056b3;
 }
+
+/* Applies to both popups and sidebar dropdowns */
+.dynamic-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.dynamic-buttons-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.3s;
+}
+
+.dynamic-buttons-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Specific styling for popups (optional) */
+.maplibregl-popup-content .dynamic-buttons-container {
+    margin-top: 10px;
+}
+
+/* Specific styling for sidebar dropdowns (optional) */
+.building-details .dynamic-buttons-container,
+.dorm-details .dynamic-buttons-container,
+.park-details .dynamic-buttons-container {
+    margin: 8px 0;
+}
