@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>GSU Campus Map</title>
-  <meta property="og:description" content="Use extrusions to display buildings' height in 3D." />
-  <meta charset='utf-8'>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css' />
-  <link rel="stylesheet" href="styles.css">
-  <script src='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js'></script>
-  <script src="buttons.js"></script>
-</head>
+    <head>
+        <title>GSU Campus Map</title>
+        <meta property="og:description" content="Use extrusions to display buildings' height in 3D." />
+        <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css' />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+        <script src='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js'></script>
+        <script src="{{ url_for('static', filename='js/button.js') }}"></script>
+    </head>
 <body>
 
   <!-- Navbar -->
