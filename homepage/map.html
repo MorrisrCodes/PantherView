@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>GSU Campus Map</title>
+  <meta property="og:description" content="Use extrusions to display buildings' height in 3D." />
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css' />
+  <link rel="stylesheet" href="styles.css">
+  <script src='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js'></script>
+  <script src="buttons.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h1>Georgia State University Campus Map</h1>
+    <div class="nav-buttons">
+      <button onclick="showSidebar('alerts')">Alerts</button>
+      <button onclick="window.location.href='map.html'">Map</button>
+      <button onclick="toggle3DBuildings()">Chat</button>
+      <button onclick="window.location.href='buildings.html'">Home</button>
+    </div>
+</nav>
+
+  <!-- Main Layout (Map + Sidebar) -->
+  <div class="container">
+      <!-- Map Container -->
+      <div id="map"></div>
+
+  <script>
+      const MAPTILER_KEY = 'get_your_own_OpIi9ZULNHzrESv6T2vL';
+      const map = new maplibregl.Map({
+          style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${MAPTILER_KEY}`,
+          center: [-84.3880, 33.7490],
+          zoom: 15.5,
+          pitch: 45,
+          bearing: -17.6,
+          container: 'map',
+          canvasContextAttributes: {antialias: true}
+      });
+
+      // Add Navigation Control
+      map.addControl(new maplibregl.NavigationControl(), 'bottom-left');
+
+
+
+    
+      // Building Data
+      const buildings = [
+          { name: "University Library", coords: [-84.3865, 33.7528] },
+          { name: "Student Center", coords: [-84.3849, 33.7526] },
+          { name: "Urban Life Building", coords: [-84.3857, 33.7523] },
+          { name: "Classroom South", coords: [-84.3875, 33.7527] },
+          { name: "Langdale Hall", coords: [-84.3872, 33.7533] },
+          { name: "Sparks Hall", coords: [-84.3858, 33.7536] },
+          { name: "Arts Building", coords: [-84.3864, 33.7539] },
+          { name: "Natural Science Center", coords: [-84.388, 33.7535] },
+          { name: "25 Park Place", coords: [-84.3878, 33.7551] },
+          { name: "Aderhold Learning Center", coords: [-84.3892, 33.7563] },
+          { name: "Petit Science Center", coords: [-84.3852, 33.7508] },
+          { name: "Student Recreation Center", coords: [-84.3843, 33.7520] },
+          { name: "Dahlberg Hall", coords: [-84.3849, 33.7536] }
+
+      ];
+
+      //dorm data
+      const dorms = [
+            { name: "University Commons", coords: [-84.3819, 33.7580] },
+            { name: "Piedmont North", coords: [-84.3813, 33.7590] },
+            { name: "Piedmont Central", coords: [-84.3825, 33.7569] },
+            { name: "Patton Hall", coords: [-84.3825, 33.7546] },
+            { name: "Greek Housing", coords: [-84.3829, 33.7547] },
+            { name: "University Lofts", coords: [-84.3837, 33.7540] },
+      ]
+
+      //park data
+      const parks = [
+          { name: "Woodruff Park", coords: [-84.3886, 33.7552] },
+          { name: "Hurt Park", coords: [-84.3854, 33.7540] },
+      ]
+
+
+
+      // Add Markers
+      buildings.forEach(building => {
+          new maplibregl.Marker({ "color": "#b40219" })
+              .setLngLat(building.coords)
+              .setPopup(new maplibregl.Popup().setHTML(`
+                  <h3>${building.name}</h3>
+                  <p>Georgia State University</p>
+                  <button onclick="reportIssue('${building.name}')">Report Issue</button>
+                  <button onclick="reportEvent('${building.name}')">Report Event</button>
+              `))
+              .addTo(map);
+      });
+
+      dorms.forEach(dorm => {
+          new maplibregl.Marker({ "color": "#400647" })
+              .setLngLat(dorm.coords)
+              .setPopup(new maplibregl.Popup().setHTML(`
+                  <h3>${dorm.name}</h3>
+                  <p>Georgia State University</p>
+                  <button onclick="reportIssue('${dorm.name}')">Report Issue</button>
+                  <button onclick="reportEvent('${dorm.name}')">Report Event</button>
+              `))
+              .addTo(map);
+      });
+
+      parks.forEach(park => {
+          new maplibregl.Marker({ "color": "#024900" })
+              .setLngLat(park.coords)
+              .setPopup(new maplibregl.Popup().setHTML(`
+                  <h3>${park.name}</h3>
+                  <p>Georgia State University</p>
+                  <button onclick="reportIssue('${park.name}')">Report Issue</button>
+                  <button onclick="reportEvent('${park.name}')">Report Event</button>
+              `))
+              .addTo(map);
+      });
+
+
+
+      function populateSidebar() {
+    // Populate Buildings
+    const buildingList = document.getElementById("building-list");
+    buildingList.innerHTML = ''; // Clear previous entries
+    buildings.forEach(building => {
+        let listItem = document.createElement("li");
+        listItem.textContent = building.name;
+        listItem.onclick = () => map.flyTo({ center: building.coords, zoom: 17 });
+        buildingList.appendChild(listItem);
+    });
+
+    // Populate Dorms
+    const dormList = document.getElementById("dorm-list");
+    dormList.innerHTML = ''; // Clear previous entries
+    dorms.forEach(dorm => {
+        let listItem = document.createElement("li");
+        listItem.textContent = dorm.name;
+        listItem.onclick = () => map.flyTo({ center: dorm.coords, zoom: 17 });
+        dormList.appendChild(listItem);
+    });
+
+    // Populate Parks
+    const parkList = document.getElementById("park-list");
+    parkList.innerHTML = ''; // Clear previous entries
+    parks.forEach(park => {
+        let listItem = document.createElement("li");
+        listItem.textContent = park.name;
+        listItem.onclick = () => map.flyTo({ center: park.coords, zoom: 17 });
+        parkList.appendChild(listItem);
+    });
+}
+
+
+      // Navbar Functions
+      function toggleAlerts() { alert("Alerts feature coming soon!"); }
+      function toggleBuildingLabels() { alert("Building Labels feature coming soon!"); }
+    function toggle3DBuildings() {
+        window.location.href = "chats.html";
+    }
+      function reportIssue(building) { alert(`Issue reported for ${building}`); }
+      function reportEvent(building) { alert(`Event reported for ${building}`); }
+
+
+    
+//this is just to load maptiler 3d buildings
+  // data from OpenStreetMap.
+  map.on('load', () => {
+      // Insert the layer beneath any symbol layer.
+      const layers = map.getStyle().layers;
+
+      let labelLayerId;
+      for (let i = 0; i < layers.length; i++) {
+          if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+              labelLayerId = layers[i].id;
+              break;
+          }
+      }
+
+      map.addSource('openmaptiles', {
+          url: `https://api.maptiler.com/tiles/v3/tiles.json?key=${MAPTILER_KEY}`,
+          type: 'vector',
+      });
+
+      map.addLayer(
+          {
+              'id': '3d-buildings',
+              'source': 'openmaptiles',
+              'source-layer': 'building',
+              'type': 'fill-extrusion',
+              'minzoom': 15,
+              'filter': ['!=', ['get', 'hide_3d'], true],
+              'paint': {
+                  'fill-extrusion-color': [
+                      'interpolate',
+                      ['linear'],
+                      ['get', 'render_height'], 0, 'lightgray', 200, 'royalblue', 400, 'lightblue'
+                  ],
+                  'fill-extrusion-height': [
+                      'interpolate',
+                      ['linear'],
+                      ['zoom'],
+                      15,
+                      0,
+                      16,
+                      ['get', 'render_height']
+                  ],
+                  'fill-extrusion-base': ['case',
+                      ['>=', ['get', 'zoom'], 16],
+                      ['get', 'render_min_height'], 0
+                  ]
+              }
+          },
+          labelLayerId
+      );
+  });
+</script>
+</body>
+</html>

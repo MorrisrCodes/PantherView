@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PantherView Entry</title>
+  <link rel="stylesheet" href="EntryPage.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="background">
+      <img src="/images/PantherViewHomepage.png" alt="Background"/>
+    </div>
+    
+    <header>
+      <div class="name">
+        <h1>PantherView</h1>
+      </div>
+
+      <div class="logo">
+        <img src="/images/pixel-panther.png" alt="Panther logo" class="panther-logo" />
+      </div>
+    </header>
+
+    <div class="intro-container">
+      <div class="center">
+        <div class="intro-header">
+          <h1>Stay Safe, Stay Connected</h1>
+        </div>
+
+        <div class="intro">
+          <h2>
+            Join the Georgia State community in making our campus safer and more connected. Share and receive real-time alerts about campus activities and safety concerns.
+          </h2>
+        </div>
+
+        <div>
+          <button class="start-button" id="getStartedBtn">Get Started</button>
+        </div>
+
+        <div class="boxes">
+          <div class="box-1">
+            <div class="box-1-image">
+              <img src="/images/pixel-panther.png" alt="Panther logo" class="box-1-logo"/>
+            </div>
+            <div class="box-1-header">
+              <h1>Real-time Alerts</h1>
+            </div>
+            <div class="box-1-content">
+              <p>Receive instant notifications about important campus events and safety concerns</p>
+            </div>
+          </div>
+
+          <div class="box-2">
+            <div class="box-2-image">
+              <img src="/images/pixel-panther.png" alt="Panther logo" class="box-1-logo"/>
+            </div>
+            <div class="box-2-header">
+              <h1>Interactive Map</h1>
+            </div>
+            <div class="box-2-content">
+              <p>Navigate campus with an interactive map showing real-time activity pins</p>
+            </div>
+          </div>
+
+          <div class="box-3">
+            <div class="box-3-image">
+              <img src="/images/pixel-panther.png" alt="Panther logo" class="box-1-logo"/>
+            </div>
+            <div class="box-3-header">
+              <h1>Safety First</h1>
+            </div>
+            <div class="box-3-content">
+              <p>Contribute to campus by reporting and viewing safety related information</p>
+            </div>
+          </div>
+
+          <div class="box-4">
+            <div class="box-4-image">
+              <img src="/images/pixel-panther.png" alt="Panther logo" class="box-1-logo"/>
+            </div>
+            <div class="box-4-header">
+              <h1>Community Driven</h1>
+            </div>
+            <div class="box-4-content">
+              <p>Connect with fellow Panthers and build a stronger campus community</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('getStartedBtn').addEventListener('click', function() {
+      window.location.href = "/login";
+    });
+  </script>
+</body>
+</html>
