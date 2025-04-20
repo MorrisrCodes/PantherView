@@ -143,7 +143,7 @@ body, html {
 
 /* Buttons Inside Dropdown */
 .building-details button, .dorm-details button, .park-details button {
-    background-color: #007bff;
+    background-color: #0056b3;
     color: white;
     border: none;
     padding: 7px 12px;
@@ -155,7 +155,7 @@ body, html {
 }
 
 .building-details button:hover, .dorm-details button:hover, .park-details button:hover {
-    background-color: #0056b3;
+    background-color: #003f80;
 }
 
 /* Smooth Dropdown Animation */
