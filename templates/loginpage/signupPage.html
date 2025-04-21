@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - PantherView</title>
+  <title>Sign Up - PantherView</title>
 </head>
 <body style="margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; height: 100%; background: linear-gradient(210deg, #0071CE, #171f31, #284aa1);">
 
@@ -16,18 +16,27 @@
         <img src="{{ url_for('static', filename='images/gsuwordlogo.png') }}" alt="GSU Logo" style="position: absolute; top: 3%; left: 50%; transform: translateX(-50%); width: 500px; max-width: 100%;" />
       </div>
 
-      <!-- Right: Login Box -->
+      <!-- Right: Signup Box -->
       <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(255, 255, 255, 0.13); padding: 30px; border-radius: 0 10px 10px 0; backdrop-filter: blur(100px);">
         <h1 style="color: white; margin-bottom: 8px;">PantherView</h1>
 
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-          <div style="width: 100%; max-width: 500px;">
-            <input type="text" placeholder="Student Email" style="margin: 6px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box;" />
-            <input type="username" placeholder="Username" style="margin: 12px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box;" />
-            <input type="password" placeholder="Password" style="margin: 12px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box;" />
-            <button onclick="location.href='{{ url_for('login') }}'" style="margin: 12px 0; padding: 12px; width: 100%; background-color: #CC0000; transition: background-color 0.3s ease-in-out; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; box-sizing: border-box;">Sign Up</button>
-          </div>
-        </div>
+        <!-- Show flash messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div style="background-color: #fff3cd; color: #856404; padding: 12px; border-radius: 8px; border: 1px solid #ffeeba; margin-bottom: 12px;">
+            {% for message in messages %}
+                <p style="margin: 0;">{{ message }}</p>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}        
+
+        <form action="{{ url_for('signup') }}" method="POST" style="width: 100%; max-width: 500px;">
+          <input type="email" name="email" placeholder="Student Email" required style="margin: 6px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" />
+          <input type="text" name="new-username" placeholder="Username" required style="margin: 12px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" />
+          <input type="password" name="new-password" placeholder="Password" required style="margin: 12px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" />
+          <button type="submit" style="margin: 12px 0; padding: 12px; width: 100%; background-color: #CC0000; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;">Sign Up</button>
+        </form>
       </div>
     </div>
   </div>
