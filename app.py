@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages
+from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages, session
 import sqlite3
 
 app = Flask(__name__)
@@ -27,6 +27,11 @@ def login():
         conn.close()
 
         if user:
+            # Use username instead of ID
+            session["username"] = user["username"]
+            session["email"] = user["email"]
+            session["access"] = int(user["access"] or 0)
+
             if user["access"] == 1:
                 return redirect(url_for("dashboard")) # admin user
             else:
@@ -78,18 +83,34 @@ def signup():
 
 @app.route("/homepage")
 def homepage():
+    if "username" not in session: # check if user is logged in
+        flash("You must be logged in to view the homepage.")
+        return redirect(url_for("login"))
+
     return render_template("homepage/buildings.html")
 
 @app.route("/chats")
 def chats():
+    if "username" not in session: # check if user is logged in
+        flash("You must be logged in to view this page.")
+        return redirect(url_for("login"))
+    
     return render_template("homepage/chats.html")
 
 @app.route("/map")
 def map_page():
+    if "username" not in session: # check if user is logged in
+        flash("You must be logged in to view this page.")
+        return redirect(url_for("login"))
+
     return render_template("homepage/map.html")
 
 @app.route("/dashboard")
 def dashboard():
+    if "username" not in session or session.get("access") != 1: # check if user is logged in and has admin access
+        flash("Login under an admin account to access this page.")
+        return redirect(url_for("login"))
+
     return render_template("adminpage/dashboard.html")
 
 if __name__ == "__main__":
