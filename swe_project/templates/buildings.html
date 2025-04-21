@@ -347,15 +347,88 @@ function generateEventTypeButtons(locationName, parentElement) {
 
 // Handle selections (same as before)
 function handleIssueSelection(locationName, issueType) {
-    alert(`Issue reported for ${locationName}: ${issueType}`);
-    // Here you can add further logic
+   const description = prompt(`Please describe the ${issueType} at ${locationName}:`);
+   if (description) {
+       fetch("/report_issue", {
+           method: "POST",
+           headers: {
+               "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+               location: locationName,
+               issue_type: issueType,
+               description: description
+           })
+       })
+       .then(response => response.json())
+       .then(data => {
+           alert(data.message || "Issue reported successfully");
+       })
+       .catch(error => {
+           console.error('Error:', error);
+           alert("Failed to report issue");
+       });
+   }
 }
+
 
 function handleEventSelection(locationName, eventType) {
-    alert(`Event reported for ${locationName}: ${eventType}`);
-    // Here you can add further logic
+   const description = prompt(`Please describe the ${eventType} at ${locationName}:`);
+   if (description) {
+       fetch("/report_event", {
+           method: "POST",
+           headers: {
+               "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+               location: locationName,
+               event_type: eventType,
+               description: description
+           })
+       })
+       .then(response => response.json())
+       .then(data => {
+           alert(data.message || "Issue reported successfully");
+       })
+       .catch(error => {
+           console.error('Error:', error);
+           alert("Failed to report issue");
+       });
+   }
 }
 
+
+function loadAlerts() {
+   fetch("/get_alerts")
+       .then(response => response.json())
+       .then(data => {
+           const list = document.getElementById("alerts-list");
+           list.innerHTML = "";
+          
+           if (data.length === 0) {
+               list.innerHTML = "<li>No alerts at the moment.</li>";
+               return;
+           }
+
+
+           data.forEach(alert => {
+               const li = document.createElement("li");
+               li.innerHTML = `
+                   <strong>${alert.location}</strong>: ${alert.message}
+                   <small>${new Date(alert.created_at).toLocaleString()}</small>
+               `;
+               list.appendChild(li);
+           });
+       })
+       .catch(error => {
+           console.error("Error loading alerts:", error);
+           document.getElementById("alerts-list").innerHTML = "<li>Error loading alerts</li>";
+       });
+}
+
+
+// Call the function when the page loads
+window.addEventListener("DOMContentLoaded", loadAlerts);
 
 
 
