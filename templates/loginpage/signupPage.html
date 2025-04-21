@@ -23,14 +23,13 @@
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
           <div style="width: 100%; max-width: 500px;">
             <input type="text" placeholder="Student Email" style="margin: 6px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box;" />
+            <input type="username" placeholder="Username" style="margin: 12px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box;" />
             <input type="password" placeholder="Password" style="margin: 12px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box;" />
-            <button onclick="location.href='{{ url_for('homepage') }}'" style="margin: 12px 0; padding: 12px; width: 100%; background-color: #CC0000; transition: background-color 0.3s ease-in-out; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; box-sizing: border-box;">Sign In</button>
-            <button onclick="location.href='{{ url_for('signup') }}'" style="margin: 12px 0; padding: 12px; width: 100%; background-color: #CC0000; transition: background-color 0.3s ease-in-out; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; box-sizing: border-box;">Sign Up</button>
+            <button onclick="location.href='{{ url_for('login') }}'" style="margin: 12px 0; padding: 12px; width: 100%; background-color: #CC0000; transition: background-color 0.3s ease-in-out; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; box-sizing: border-box;">Sign Up</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </body>
 </html>

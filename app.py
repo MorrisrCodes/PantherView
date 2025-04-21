@@ -1,6 +1,12 @@
 from flask import Flask, render_template
+import sqlite3
 
 app = Flask(__name__)
+
+def get_db_connection():
+    conn = sqlite3.connect('login_db.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route("/")
 def entry():
@@ -12,7 +18,7 @@ def login():
 
 @app.route("/signup")
 def signup():
-    return "<h1>Signup Page Coming Soon!</h1>"
+    return render_template("loginpage/signupPage.html")
 
 @app.route("/homepage")
 def homepage():
