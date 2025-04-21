@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PantherView</title>
+    <style>
+      header {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        background-color: #0039A6;
+      }
+      .main {
+          position: relative;
+          min-height: 100vh;
+          width: 100vw
+      }
+
+    .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+    .background img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Overlay for better text readability */
+    .background::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Adjust opacity as needed */
+        z-index: 1;
+      }
+
+
+    /* Ensure all content is above the background */
+    header, .intro-container {
+        position: relative;
+        z-index: 2;
+      }
+    .name {
+        position: flex;
+        color: white;
+        font-family: 'Arial', sans-serif;
+        font-size: 45px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        margin-left: 20px;
+    }
+
+    .panther-logo {
+        position: flex;
+        height: 80px;
+        width: auto;
+        object-fit: contain;
+        margin-right: 20px;
+    }
+
+    /* Places intro in the center of the screen */
+    .center{
+        width: 70%;
+        height: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Holds all intro info */
+    .intro-container{
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+        
+    }
+
+    /* Introduction title */
+    .intro-header {
+        font-size: 35px;
+        display: flex;
+        color: white;
+        margin-top: 10px;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
+        font-family: 'Arial', sans-serif;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Introduction paragraph */
+    .intro {
+        font-size: 20px;
+        display: flex;
+        color: white;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
+        font-family: 'Arial', sans-serif;
+        padding-right: 80px;
+        padding-left: 80px;
+    }
+
+    .start-button {
+        margin: 12px 0;
+        padding: 12px ;
+        width: 100%;
+        transition: background-color 0.3s ease-in-out;
+        background: #CC0000;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: 'Arial', sans-serif;
+        width: 15%;
+        margin-top: 20px;
+    }
+
+    /* button hover */
+    .start-button button:hover {
+        background-color: #83131e;
+    }
+
+    .box-1 {
+        background-color: rgba(128, 128, 128, 0.5); /* grey with 50% opacity */
+        position: center;
+        font-family: 'Arial', sans-serif;
+        font-size: 15px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        border-radius: 25px;
+        width: 70%;
+        margin-top: 15px;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .box-1-logo {
+        position: flex;
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+        margin-top: 10px;
+    }
+
+    .box-1-content {
+        margin-bottom: 10px;
+    }
+
+    .box-1-header {
+        color: white;
+    }
+
+    /* box 2 */
+    .box-2 {
+        background-color: rgba(128, 128, 128, 0.5); /* grey with 50% opacity */
+        position: center;
+        font-family: 'Arial', sans-serif;
+        font-size: 15px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        border-radius: 25px;
+        width: 70%;
+        margin-top: 15px;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .box-2-logo {
+        position: flex;
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+        margin-top: 10px;
+    }
+
+    .box-2-content {
+        margin-bottom: 10px;
+    }
+
+    .box-2-header {
+        color: white;
+    }
+
+    /* box 3 */
+    .box-3 {
+        background-color: rgba(128, 128, 128, 0.5); /* grey with 50% opacity */
+        position: center;
+        font-family: 'Arial', sans-serif;
+        font-size: 15px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        border-radius: 25px;
+        width: 70%;
+        margin-top: 15px;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .box-3-logo {
+        position: flex;
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+        margin-top: 10px;
+    }
+
+    .box-3-content {
+        margin-bottom: 10px;
+    }
+
+    .box-3-header {
+        color: white;
+    }
+
+    /* box 4 */
+    .box-4 {
+        position: center;
+        background-color: rgba(128, 128, 128, 0.5); /* grey with 50% opacity */
+        font-family: 'Arial', sans-serif;
+        font-size: 15px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        border-radius: 25px;
+        width: 70%;
+        margin-top: 15px;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .box-4-logo {
+        position: flex;
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+        margin-top: 10px;
+    }
+
+    .box-4-content {
+        margin-bottom: 10px;
+    }
+
+    .box-4-header {
+        color: white;
+    }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="background">
+            <img src="./images/PantherViewHomepage.png" alt="Background image">
+        </div>
+        <header>
+            <div class="name">
+                <h1>PantherView</h1>
+            </div>
+            <div class="logo">
+                <img src="./images/pixel-panther.png" alt="Panther logo" class="panther-logo">
+            </div>
+        </header>
+        
+        <div class="intro-container">
+            <div class="center">
+                <div class="intro-header">
+                    <h1>Stay Safe, Stay Connected</h1>
+                </div>
+                
+                <div class="intro">
+                    <h2>
+                        Join the Georgia State community in making our campus safer and more connected. Share and receive real-time alerts about campus activities and safety concerns.
+                    </h2>
+                </div>
+                
+                <div>
+                    <button class="start-button" id="getStartedBtn">Get Started</button>
+                </div>
+                
+                <div class="boxes">
+                    <div class="box-1">
+                        <div class="box-1-image">
+                            <img src="./images/pixel-panther.png" alt="Panther logo" class="box-1-logo">
+                        </div>
+                        
+                        <div class="box-1-header">
+                            <h1>Real-time Alerts</h1>
+                        </div>
+                        
+                        <div class="box-1-content">
+                            <p>Receive instant notifications about important campus events and safety concerns</p>
+                        </div>
+                    </div>
+                    
+                    <div class="box-2">
+                        <div class="box-2-image">
+                            <img src="./images/pixel-panther.png" alt="Panther logo" class="box-1-logo">
+                        </div>
+                        
+                        <div class="box-2-header">
+                            <h1>Interactive Map</h1>
+                        </div>
+                        
+                        <div class="box-2-content">
+                            <p>Navigate campus with an interactive map showing real-time activity pins</p>
+                        </div>
+                    </div>
+                    
+                    <div class="box-3">
+                        <div class="box-3-image">
+                            <img src="./images/pixel-panther.png" alt="Panther logo" class="box-1-logo">
+                        </div>
+                        
+                        <div class="box-3-header">
+                            <h1>Safety First</h1>
+                        </div>
+                        
+                        <div class="box-3-content">
+                            <p>Contribute to campus by reporting and viewing safety related information</p>
+                        </div>
+                    </div>
+                    
+                    <div class="box-4">
+                        <div class="box-4-image">
+                            <img src="./images/pixel-panther.png" alt="Panther logo" class="box-1-logo">
+                        </div>
+                        
+                        <div class="box-4-header">
+                            <h1>Community Driven</h1>
+                        </div>
+                        
+                        <div class="box-4-content">
+                            <p>Connect with fellow Panthers and build a stronger campus community</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add event listener to the Get Started button
+        document.getElementById('getStartedBtn').addEventListener('click', function() {
+            //navigate to the login page
+            window.location.href = '/login';
+        });
+    </script>
+</body>
+</html>
