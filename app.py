@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages, session
+from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages, session, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -144,6 +144,30 @@ def manage_users():
     conn.close()
 
     return render_template("adminpage/manageUsers.html", users=users)
+
+@app.route("/report", methods=["POST"])
+def report():
+    if "username" not in session:
+        print("Not logged in")
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json()
+    location = data.get("location")
+    type_ = data.get("type")
+    username = session["username"]
+
+    print("Received report:", location, type_, username)
+
+    conn = get_db_connection()
+    conn.execute(
+        "INSERT INTO posts (type, location, username) VALUES (?, ?, ?)",
+        (type_, location, username)
+    )
+    conn.commit()
+    conn.close()
+
+    print("Inserted into DB successfully")
+    return jsonify({"message": "Report submitted successfully!"})
 
 if __name__ == "__main__":
     app.run(debug=True)
