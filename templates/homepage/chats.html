@@ -16,10 +16,9 @@
   <nav class="navbar">
       <h1>Georgia State University Campus Map</h1>
       <div class="nav-buttons">
-        <button onclick="showSidebar('alerts')">Alerts</button>
-        <button onclick="window.location.href='map.html'">Map</button>
-        <button onclick="toggle3DBuildings()">Chat</button>
-        <button onclick="window.location.href='buildings.html'">Home</button>
+        <button onclick="window.location.href='{{ url_for('map_page') }}'">Map</button>
+        <button onclick="window.location.href='{{ url_for('chats') }}'">Chat</button>
+        <button onclick="window.location.href='{{ url_for('homepage') }}'">Home</button>
       </div>
   </nav>
 

@@ -39,7 +39,6 @@ def login():
         else:
             flash("Invalid username or password.") # not in db
             return redirect(url_for("login"))
-
     return render_template("loginpage/LoginPage-inlineCss.html")
 
 
@@ -78,7 +77,6 @@ def signup():
 
         flash("Account created successfully!")
         return redirect(url_for("login"))
-
     return render_template("loginpage/signupPage.html")
 
 @app.route("/homepage")
@@ -86,23 +84,20 @@ def homepage():
     if "username" not in session: # check if user is logged in
         flash("You must be logged in to view the homepage.")
         return redirect(url_for("login"))
-
     return render_template("homepage/buildings.html")
 
 @app.route("/chats")
 def chats():
-    if "username" not in session: # check if user is logged in
+    if "username" not in session:
         flash("You must be logged in to view this page.")
         return redirect(url_for("login"))
-    
     return render_template("homepage/chats.html")
 
 @app.route("/map")
 def map_page():
-    if "username" not in session: # check if user is logged in
+    if "username" not in session:
         flash("You must be logged in to view this page.")
         return redirect(url_for("login"))
-
     return render_template("homepage/map.html")
 
 @app.route("/dashboard")
@@ -110,8 +105,14 @@ def dashboard():
     if "username" not in session or session.get("access") != 1: # check if user is logged in and has admin access
         flash("Login under an admin account to access this page.")
         return redirect(url_for("login"))
-
     return render_template("adminpage/dashboard.html")
+
+@app.route("/manage_posts")
+def manage_posts():
+    if "username" not in session or session.get("access") != 1:
+        flash("Login under an admin account to access this page.")
+        return redirect(url_for("login"))
+    return render_template("adminpage/managePosts.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

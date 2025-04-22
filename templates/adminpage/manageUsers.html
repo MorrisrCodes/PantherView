@@ -124,14 +124,14 @@
 <h1>Manage Users</h1>
 
 <div class="nav">
-  <a href="#">Dashboard</a>
-  <a href="#">Manage Posts</a>
-  <a href="#">Manage Users</a>
-  <a href="#">View Map</a>
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('manage_posts') }}">Manage Posts</a>
+  <a href="{{ url_for('manage_users') }}">Manage Users</a>
+  <a href="{{ url_for('map_page') }}">View Map</a>
 </div>
 
 <div class="logout-container">
-  <a href="#"><button>Log Out</button></a>
+  <a href="{{ url_for('login') }}"><button>Log Out</button></a>
 </div>
 
 <div class="container">

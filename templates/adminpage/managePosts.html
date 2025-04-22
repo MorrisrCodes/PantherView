@@ -107,22 +107,6 @@
       color: white;
     }
 
-    .badge {
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-weight: bold;
-    }
-
-    .badge-verified {
-      background-color: #28a745;
-      color: white;
-    }
-
-    .badge-action {
-      background-color: #ffc107;
-      color: #856404;
-    }
-
     .btn {
       padding: 6px 12px;
       border: none;
@@ -132,11 +116,6 @@
 
     .btn-delete {
       background: #dc3545;
-      color: white;
-    }
-
-    .btn-verify {
-      background: #28a745;
       color: white;
     }
 
@@ -158,14 +137,14 @@
 <h1>Manage Posts</h1>
 
 <div class="nav">
-  <a href="#">Dashboard</a>
-  <a href="#">Manage Posts</a>
-  <a href="#">Manage Users</a>
-  <a href="#">View Map</a>
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('manage_posts') }}">Manage Posts</a>
+  <a href="{{ url_for('manage_users') }}">Manage Users</a>
+  <a href="{{ url_for('map_page') }}">View Map</a>
 </div>
 
 <div class="logout-container">
-  <a href="#"><button>Log Out</button></a>
+  <a href="{{ url_for('login') }}"><button>Log Out</button></a>
 </div>
 
 <div class="container">
@@ -173,7 +152,7 @@
     <h3>Make Post</h3>
     <form method="POST" action="#">
       <input type="text" name="title" placeholder="Post Title" required>
-      <textarea name="content" placeholder="Post Content" rows="4" required></textarea>
+      <textarea name="content" placeholder="Post Content" rows="3" required></textarea>
       <button type="submit">Add Post</button>
     </form>
   </div>
@@ -184,25 +163,22 @@
       <tr>
         <th>ID</th>
         <th>Title</th>
-        <th>Status</th>
-        <th>Actions</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Example row -->
+      {% for post in posts %}
       <tr>
-        <td>1</td>
-        <td>Sample Post Title</td>
-        <td><span class="badge badge-verified">Verified</span></td>
+        <td>{{ post.id }}</td>
+        <td>{{ post.title }}</td>
         <td class="action-buttons">
-          <form class="action-form" action="#" method="GET">
+          <form class="action-form" action="{{ url_for('manage_posts') }}" method="POST">
+            <input type="hidden" name="delete_id" value="{{ post.id }}">
             <button type="submit" class="btn btn-delete">Delete</button>
-          </form>
-          <form class="action-form" action="#" method="GET">
-            <button type="submit" class="btn btn-verify">Verify</button>
           </form>
         </td>
       </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>
