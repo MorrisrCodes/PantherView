@@ -30,12 +30,14 @@
 
       <div class="sidebar2" id="chats-sidebar">
         <h2>Chat</h2>
-        <p>No Chats at the moment.</p>
+        <div id="chat-messages">
+            <p>No messages yet. Start the conversation!</p>
+        </div>
         <!-- Textbox for user input -->
         <input type="text" id="chat-input" placeholder="Type your message here...">
         <br>
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="submitMessage()">
     </div>
 </div>
 
@@ -130,6 +132,43 @@
               .addTo(map);
       });
 
+      function submitMessage() {
+          const input = document.getElementById('chat-input');
+          const message = input.value.trim();
+          
+          if (message) {
+              const chatMessages = document.getElementById('chat-messages');
+              
+              // Remove the "No messages" text if it's the first message
+              if (chatMessages.innerHTML.includes('No messages yet')) {
+                  chatMessages.innerHTML = '';
+              }
+              
+              // Create new message element
+              const messageElement = document.createElement('div');
+              messageElement.textContent = message;
+              messageElement.style.padding = '8px';
+              messageElement.style.margin = '4px 0';
+              messageElement.style.backgroundColor = '#f0f0f0';
+              messageElement.style.borderRadius = '4px';
+              
+              // Add message to chat
+              chatMessages.appendChild(messageElement);
+              
+              // Clear input
+              input.value = '';
+              
+              // Scroll to bottom
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+          }
+      }
+
+      // Handle Enter key press
+      document.getElementById('chat-input').addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+              submitMessage();
+          }
+      });
 
 
       function populateSidebar() {
