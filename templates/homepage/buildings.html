@@ -313,6 +313,7 @@ function reportEvent(parkName) {
 populateParks();
 
 
+
 // Updated functions for sidebar
 function generateIssueTypeButtons(locationName, parentElement) {
           const container = parentElement.querySelector('.dynamic-buttons-container');
@@ -346,6 +347,60 @@ function generateEventTypeButtons(locationName, parentElement) {
     });
 }
 
+
+// Function to add alert to the sidebar
+function addAlert(type, location, description) {
+    const alertsContainer = document.getElementById('alerts-container');
+    
+    // Remove "No alerts" message if it's the first alert
+    if (alertsContainer.innerHTML.includes('No alerts')) {
+        alertsContainer.innerHTML = '';
+    }
+    
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert-item';
+    
+    const timestamp = new Date().toLocaleString();
+    
+    alertDiv.innerHTML = `
+        <p><strong>${type} at ${location}</strong></p>
+        <p>${description}</p>
+        <p class="alert-time">${timestamp}</p>
+    `;
+    
+    // Add new alert at the top
+    alertsContainer.insertBefore(alertDiv, alertsContainer.firstChild);
+    
+    // Show alerts sidebar if hidden
+    document.getElementById('alerts-sidebar').classList.remove('hidden');
+}
+
+// Handle issue selection
+function handleIssueSelection(locationName, issueType) {
+    const description = prompt(`Please describe the ${issueType} at ${locationName}:`);
+    if (description) {
+        addAlert(`${issueType} Issue`, locationName, description);
+        alert(`Thank you for reporting the ${issueType} issue at ${locationName}`);
+    }
+}
+
+// Handle event selection
+function handleEventSelection(locationName, eventType) {
+    const description = prompt(`Please describe the ${eventType} at ${locationName}:`);
+    if (description) {
+        addAlert(`${eventType} Event`, locationName, description);
+        alert(`Thank you for reporting the ${eventType} event at ${locationName}`);
+    }
+}
+
+// Toggle alerts sidebar
+function toggleAlerts() {
+    const alertsSidebar = document.getElementById('alerts-sidebar');
+    const buildingsSidebar = document.getElementById('buildings-sidebar');
+    
+    alertsSidebar.classList.toggle('hidden');
+    buildingsSidebar.classList.toggle('hidden');
+}
 
       // Placeholder Functions
       function toggleAlerts() { alert("Alerts feature coming soon!"); }
