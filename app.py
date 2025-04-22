@@ -120,7 +120,6 @@ def manage_posts():
         if post_id:
             conn.execute("DELETE FROM posts WHERE post_id = ?", (post_id,))
             conn.commit()
-            flash(f"Post {post_id} deleted successfully!")
 
     posts = conn.execute("SELECT post_id, type, location FROM posts").fetchall()
     conn.close()
@@ -140,7 +139,6 @@ def manage_users():
         if username_to_delete:
             conn.execute("DELETE FROM users WHERE username = ?", (username_to_delete,))
             conn.commit()
-            flash(f"User '{username_to_delete}' deleted successfully!")
 
     users = conn.execute("SELECT username, email FROM users").fetchall()
     conn.close()
