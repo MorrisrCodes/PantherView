@@ -107,12 +107,45 @@ def dashboard():
         return redirect(url_for("login"))
     return render_template("adminpage/dashboard.html")
 
-@app.route("/manage_posts")
+@app.route("/manage_posts", methods=["GET", "POST"])
 def manage_posts():
     if "username" not in session or session.get("access") != 1:
         flash("Login under an admin account to access this page.")
         return redirect(url_for("login"))
-    return render_template("adminpage/managePosts.html")
+
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        post_id = request.form.get("delete_id")
+        if post_id:
+            conn.execute("DELETE FROM posts WHERE post_id = ?", (post_id,))
+            conn.commit()
+            flash(f"Post {post_id} deleted successfully!")
+
+    posts = conn.execute("SELECT post_id, type, location FROM posts").fetchall()
+    conn.close()
+
+    return render_template("adminpage/managePosts.html", posts=posts)
+
+@app.route("/manage_users", methods=["GET", "POST"])
+def manage_users():
+    if "username" not in session or session.get("access") != 1:
+        flash("Login under an admin account to access this page.")
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        username_to_delete = request.form.get("delete_username")
+        if username_to_delete:
+            conn.execute("DELETE FROM users WHERE username = ?", (username_to_delete,))
+            conn.commit()
+            flash(f"User '{username_to_delete}' deleted successfully!")
+
+    users = conn.execute("SELECT username, email FROM users").fetchall()
+    conn.close()
+
+    return render_template("adminpage/manageUsers.html", users=users)
 
 if __name__ == "__main__":
     app.run(debug=True)

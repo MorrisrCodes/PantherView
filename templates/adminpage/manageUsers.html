@@ -106,17 +106,29 @@
       color: white;
     }
 
-    .action-buttons button {
-      background: none;
+    .btn {
+      padding: 6px 12px;
       border: none;
-      font-weight: bold;
       cursor: pointer;
-      padding: 0;
-      margin: 0 6px;
+      border-radius: 4px;
     }
 
-    .edit { color: #ffc107; }
-    .delete { color: #dc3545; }
+    .btn-delete {
+      background: #dc3545;
+      color: white;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .action-form {
+      margin: 4px 0;
+    }
   </style>
 </head>
 <body>
@@ -149,23 +161,24 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th>
         <th>Username</th>
         <th>Email</th>
-        <th>Actions</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Example row -->
+      {% for user in users %}
       <tr>
-        <td>1</td>
-        <td>janedoe</td>
-        <td>janedoe@email.com</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
         <td class="action-buttons">
-          <button class="edit">Edit</button>
-          <button class="delete">Delete</button>
+          <form class="action-form" method="POST" action="{{ url_for('manage_users') }}">
+            <input type="hidden" name="delete_username" value="{{ user.username }}">
+            <button type="submit" class="btn btn-delete">Delete</button>
+          </form>
         </td>
       </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>
