@@ -39,12 +39,12 @@
         <ul id="park-list"></ul>
     </div>
 
-    <!-- Alerts Sidebar (Hidden by Default) -->
+    <!-- Alerts Sidebar-->
     <div class="sidebar hidden" id="alerts-sidebar">
         <h2>Alerts</h2>
         <p>No alerts at the moment.</p>
-    </div>
-</div>
+      </div>
+      
 
   <script>
       const MAPTILER_KEY = 'get_your_own_OpIi9ZULNHzrESv6T2vL';
@@ -405,7 +405,7 @@ function loadAlerts() {
         .then(data => {
             const list = document.getElementById("alerts-list");
             list.innerHTML = "";
-            
+
             if (data.length === 0) {
                 list.innerHTML = "<li>No alerts at the moment.</li>";
                 return;
@@ -414,8 +414,8 @@ function loadAlerts() {
             data.forEach(alert => {
                 const li = document.createElement("li");
                 li.innerHTML = `
-                    <strong>${alert.location}</strong>: ${alert.message}
-                    <small>${new Date(alert.created_at).toLocaleString()}</small>
+                    ${alert.message} 
+                    <br><small>${new Date(alert.timestamp).toLocaleString()}</small>
                 `;
                 list.appendChild(li);
             });
@@ -425,6 +425,7 @@ function loadAlerts() {
             document.getElementById("alerts-list").innerHTML = "<li>Error loading alerts</li>";
         });
 }
+
 
 
 // Call the function when the page loads
