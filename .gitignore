@@ -10,13 +10,5 @@ env/
 # Environment variables and credentials
 .env
 
-# Flask-related
-instance/
-*.db
-
 # VSCode settings (optional)
 .vscode/
-
-# MacOS/Windows files
-.DS_Store
-Thumbs.db

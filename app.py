@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages, session
+from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages, session, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -107,12 +107,73 @@ def dashboard():
         return redirect(url_for("login"))
     return render_template("adminpage/dashboard.html")
 
-@app.route("/manage_posts")
+@app.route("/manage_posts", methods=["GET", "POST"])
 def manage_posts():
     if "username" not in session or session.get("access") != 1:
         flash("Login under an admin account to access this page.")
         return redirect(url_for("login"))
-    return render_template("adminpage/managePosts.html")
+
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        post_id = request.form.get("delete_id")
+        if post_id:
+            conn.execute("DELETE FROM posts WHERE post_id = ?", (post_id,))
+            conn.commit()
+
+    posts = conn.execute("SELECT post_id, type, location FROM posts").fetchall()
+    conn.close()
+
+    return render_template("adminpage/managePosts.html", posts=posts)
+
+@app.route("/manage_users", methods=["GET", "POST"])
+def manage_users():
+    if "username" not in session or session.get("access") != 1:
+        flash("Login under an admin account to access this page.")
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        username_to_delete = request.form.get("delete_username")
+        if username_to_delete:
+            conn.execute("DELETE FROM users WHERE username = ?", (username_to_delete,))
+            conn.commit()
+
+    users = conn.execute("SELECT username, email FROM users").fetchall()
+    conn.close()
+
+    return render_template("adminpage/manageUsers.html", users=users)
+
+@app.route("/report", methods=["POST"])
+def report():
+    if "username" not in session:
+        print("Not logged in")
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json()
+    location = data.get("location")
+    type_ = data.get("type")
+    username = session["username"]
+
+    print("Received report:", location, type_, username)
+
+    conn = get_db_connection()
+    conn.execute(
+        "INSERT INTO posts (type, location, username) VALUES (?, ?, ?)",
+        (type_, location, username)
+    )
+    conn.commit()
+    conn.close()
+
+    print("Inserted into DB successfully")
+    return jsonify({"message": "Report submitted successfully!"})
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("You have been logged out.")
+    return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(debug=True)
