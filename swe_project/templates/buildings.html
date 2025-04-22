@@ -39,11 +39,13 @@
         <ul id="park-list"></ul>
     </div>
 
-    <!-- Alerts Sidebar-->
-    <div class="sidebar hidden" id="alerts-sidebar">
-        <h2>Alerts</h2>
+<!-- Alerts Sidebar-->
+<div class="sidebar hidden" id="alerts-sidebar">
+    <h2>Alerts</h2>
+    <div id="alerts-container">
         <p>No alerts at the moment.</p>
-      </div>
+    </div>
+</div>
       
 
   <script>
@@ -310,23 +312,49 @@ function reportEvent(parkName) {
 
 populateParks();
 
+// Function to add alert to the sidebar
+function addAlert(type, location, description) {
+    const alertsContainer = document.getElementById('alerts-container');
+    
+    // Remove "No alerts" message if it's the first alert
+    if (alertsContainer.innerHTML.includes('No alerts')) {
+        alertsContainer.innerHTML = '';
+    }
+    
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert-item';
+    
+    const timestamp = new Date().toLocaleString();
+    
+    alertDiv.innerHTML = `
+        <p><strong>${type} at ${location}</strong></p>
+        <p>${description}</p>
+        <p class="alert-time">${timestamp}</p>
+    `;
+    
+    // Add new alert at the top
+    alertsContainer.insertBefore(alertDiv, alertsContainer.firstChild);
+    
+    // Show alerts sidebar if hidden
+    document.getElementById('alerts-sidebar').classList.remove('hidden');
+}
 
 // Updated functions for sidebar
 function generateIssueTypeButtons(locationName, parentElement) {
-    const container = parentElement.querySelector('.dynamic-buttons-container');
-    container.innerHTML = ''; // Clear old buttons
+          const container = parentElement.querySelector('.dynamic-buttons-container');
+          container.innerHTML = ''; // Clear old buttons
 
-    // Define issue types
-    const issueTypes = ["Theft", "Safety Hazard", "Vandalism", "Fight", "Other"];
+          // Define issue types
+          const issueTypes = ["Theft", "Safety Hazard", "Vandalism", "Fight", "Other"];
 
-    // Generate buttons for each issue type
-    issueTypes.forEach(type => {
-        let button = document.createElement("button");
-        button.textContent = type;
-        button.onclick = () => handleIssueSelection(locationName, type);
-        container.appendChild(button);
-    });
-}
+          // Generate buttons for each issue type
+          issueTypes.forEach(type => {
+              let button = document.createElement("button");
+              button.textContent = type;
+              button.onclick = () => handleIssueSelection(locationName, type);
+              container.appendChild(button);
+          });
+      }
 
 function generateEventTypeButtons(locationName, parentElement) {
     const container = parentElement.querySelector('.dynamic-buttons-container');
@@ -344,30 +372,12 @@ function generateEventTypeButtons(locationName, parentElement) {
     });
 }
 
-// Handle selections (same as before)
+// Handle selections
 function handleIssueSelection(locationName, issueType) {
     const description = prompt(`Please describe the ${issueType} at ${locationName}:`);
     if (description) {
-        fetch("/report_issue", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                location: locationName,
-                issue_type: issueType,
-                description: description
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            loadAlerts(); // Refresh the alerts list
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Failed to report issue");
-        });
+        addAlert(`${issueType} Issue`, locationName, description);
+        alert(`Thank you for reporting the ${issueType} issue at ${locationName}`);
     }
 }
 
@@ -375,26 +385,8 @@ function handleIssueSelection(locationName, issueType) {
 function handleEventSelection(locationName, eventType) {
     const description = prompt(`Please describe the ${eventType} at ${locationName}:`);
     if (description) {
-        fetch("/report_event", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                location: locationName,
-                event_type: eventType,
-                description: description
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            loadAlerts(); // Refresh the alerts list
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Failed to report event");
-        });
+        addAlert(`${eventType} Event`, locationName, description);
+        alert(`Thank you for reporting the ${eventType} event at ${locationName}`);
     }
 }
 
@@ -425,7 +417,6 @@ function loadAlerts() {
             document.getElementById("alerts-list").innerHTML = "<li>Error loading alerts</li>";
         });
 }
-
 
 
 // Call the function when the page loads
